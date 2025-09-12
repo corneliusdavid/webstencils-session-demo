@@ -1,4 +1,4 @@
-# WebStencils Sessions Demo #
+# WebStencils Session Demo #
 
 WebStencils is a scripting technology, introduced with Delphi 12.2; with Delphi 13, Session Management has been added to the underlying technology making interactive web sites built with Delphi feasible without a lot of work or third-party components.
 
@@ -27,7 +27,7 @@ There are five pages in the application:
 - `accessdenied-wStencils.html`
 - `custlistframework1.html`
 
-## Building the Projects
+## Building the Project
 
 Before you try to compile or run, you should download the [Chinook sample database](https://github.com/lerocha/chinook-database). This is a popular database used for tutorials and demos and can be found in many different places. I use [DBeaver](https://dbeaver.io/), a free database tool, and found it ships with that.
 
@@ -37,7 +37,7 @@ Delphi 13 was used to create and test the program (which uses no third-party com
 
 ## Running the demo
 
-The demo is created as Web Server Windows GUI program, meaning it runs as a small Windows VCL program that opens a port to listen for web requests with a button to launch your default web browser; the default port is 8080.
+The demo Delphi project, `CustListSessionedWebStencils`, is created as Web Server Windows GUI program, meaning it runs as a small Windows VCL program that opens a port to listen for web requests with a button to launch your default web browser; the default port is 8080.
 
 The first page listed is a login page. A valid login must be entered before it will take you to the customer list. A valid login is any user in the Employees table where:
 
