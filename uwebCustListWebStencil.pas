@@ -10,19 +10,18 @@ uses
   System.SysUtils, System.Classes, Web.HTTPApp, Web.HTTPProd, Web.Stencils;
 
 type
-  TwebCustListWebStencil = class(TWebModule)
+  Tf = class(TWebModule)
     wspIndex: TWebStencilsProcessor;
     wsEngineCustList: TWebStencilsEngine;
     wspLoginFailed: TWebStencilsProcessor;
     wspCustList: TWebStencilsProcessor;
     wspAccessDenied: TWebStencilsProcessor;
     wspCustEdit: TWebStencilsProcessor;
-    WebAuthorizer1: TWebAuthorizer;
-    WebSessionManager1: TWebSessionManager;
+    WebAuthorizer: TWebAuthorizer;
     WebFormsAuthenticator1: TWebFormsAuthenticator;
+    WebSessionMgr: TWebSessionManager;
+    wspLogin: TWebStencilsProcessor;
     procedure WebModuleCreate(Sender: TObject);
-    procedure webCustListWebStencilDefaultHandlerAction(Sender: TObject; Request: TWebRequest; Response: TWebResponse;
-      var Handled: Boolean);
     procedure webCustListWebStencilwaLoginVerifyAction(Sender: TObject; Request: TWebRequest; Response: TWebResponse;
       var Handled: Boolean);
     procedure webCustListWebStencilwaListCustomersAction(Sender: TObject; Request: TWebRequest; Response: TWebResponse;
@@ -30,6 +29,10 @@ type
     procedure webCustListWebStencilwaEditCustomerAction(Sender: TObject; Request: TWebRequest; Response: TWebResponse;
       var Handled: Boolean);
     procedure wsEngineCustListError(Sender: TObject; const AMessage: string);
+    procedure WebSessionMgrCreated(Sender: TCustomWebSessionManager;
+      Request: TWebRequest; Session: TWebSession);
+    procedure WebSessionMgrAcquire(Sender: TCustomWebSessionManager;
+      Request: TWebRequest; Session: TWebSession);
   private
     // these are NOT accessible by the WebStencilsEngine
     FVersion: string;
@@ -41,7 +44,7 @@ type
   end;
 
 var
-  WebModuleClass: TComponentClass = TwebCustListWebStencil;
+  WebModuleClass: TComponentClass = Tf;
 
 implementation
 
@@ -51,16 +54,9 @@ implementation
 
 uses
   Dialogs, System.bindings.EvalProtocol, System.Bindings.Methods,
-  udmCust;
+  udmCust, uLogging;
 
-procedure TwebCustListWebStencil.webCustListWebStencilDefaultHandlerAction(Sender: TObject; Request: TWebRequest;
-  Response: TWebResponse; var Handled: Boolean);
-begin
-  Response.Content := wspIndex.Content;
-  Handled := True;
-end;
-
-procedure TwebCustListWebStencil.webCustListWebStencilwaEditCustomerAction(Sender: TObject; Request: TWebRequest;
+procedure Tf.webCustListWebStencilwaEditCustomerAction(Sender: TObject; Request: TWebRequest;
   Response: TWebResponse; var Handled: Boolean);
 var
   CustNo: string;
@@ -85,7 +81,7 @@ begin
   end;
 end;
 
-procedure TwebCustListWebStencil.webCustListWebStencilwaListCustomersAction(Sender: TObject; Request: TWebRequest;
+procedure Tf.webCustListWebStencilwaListCustomersAction(Sender: TObject; Request: TWebRequest;
   Response: TWebResponse; var Handled: Boolean);
 begin
   dmCust.qryCustomers.Open;
@@ -103,7 +99,7 @@ begin
   end;
 end;
 
-procedure TwebCustListWebStencil.webCustListWebStencilwaLoginVerifyAction(Sender: TObject; Request: TWebRequest;
+procedure Tf.webCustListWebStencilwaLoginVerifyAction(Sender: TObject; Request: TWebRequest;
   Response: TWebResponse; var Handled: Boolean);
 var
   Username, Password: string;
@@ -121,15 +117,28 @@ begin
   Handled := True;
 end;
 
-procedure TwebCustListWebStencil.WebModuleCreate(Sender: TObject);
+procedure Tf.WebModuleCreate(Sender: TObject);
 begin
   FTitle := 'Customer List for WebStencils with Session Management';
   FVersion := '0.4';
   wsEngineCustList.AddVar('App', Self, False);
 end;
 
-procedure TwebCustListWebStencil.wsEngineCustListError(Sender: TObject; const AMessage: string);
+procedure Tf.WebSessionMgrAcquire(Sender: TCustomWebSessionManager;
+  Request: TWebRequest; Session: TWebSession);
 begin
+  WebLogger.Add('WebSessionMgr acquired a session');
+end;
+
+procedure Tf.WebSessionMgrCreated(Sender: TCustomWebSessionManager;
+  Request: TWebRequest; Session: TWebSession);
+begin
+  WebLogger.Add('WebSessionMgr was created');
+end;
+
+procedure Tf.wsEngineCustListError(Sender: TObject; const AMessage: string);
+begin
+  WebLogger.Add('WebEngine ERROR: ' + AMessage);
   ShowMessage(AMessage);
 end;
 

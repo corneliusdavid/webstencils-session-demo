@@ -10,6 +10,7 @@ object Form2: TForm2
   Font.Height = -11
   Font.Name = 'Tahoma'
   Font.Style = []
+  OnActivate = FormActivate
   OnCreate = FormCreate
   TextHeight = 13
   object Label1: TLabel
@@ -18,6 +19,13 @@ object Form2: TForm2
     Width = 20
     Height = 13
     Caption = 'Port'
+  end
+  object lblLogFilename: TLabel
+    Left = 32
+    Top = 192
+    Width = 69
+    Height = 13
+    Caption = 'lblLogFilename'
   end
   object ButtonStart: TButton
     Left = 24

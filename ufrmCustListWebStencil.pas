@@ -15,17 +15,17 @@ type
     Label1: TLabel;
     ApplicationEvents1: TApplicationEvents;
     ButtonOpenBrowser: TButton;
+    lblLogFilename: TLabel;
     procedure FormCreate(Sender: TObject);
     procedure ApplicationEvents1Idle(Sender: TObject; var Done: Boolean);
     procedure ButtonStartClick(Sender: TObject);
     procedure ButtonStopClick(Sender: TObject);
     procedure ButtonOpenBrowserClick(Sender: TObject);
+    procedure FormActivate(Sender: TObject);
   private
     FServer: TIdHTTPWebBrokerBridge;
+    FFirstTime: Boolean;
     procedure StartServer;
-    { Private declarations }
-  public
-    { Public declarations }
   end;
 
 var
@@ -39,7 +39,8 @@ uses
 {$IFDEF MSWINDOWS}
   WinApi.Windows, Winapi.ShellApi,
 {$ENDIF}
-  System.Generics.Collections;
+  System.Generics.Collections,
+  uLogging;
 
 procedure TForm2.ApplicationEvents1Idle(Sender: TObject; var Done: Boolean);
 begin
@@ -74,9 +75,18 @@ begin
   FServer.Bindings.Clear;
 end;
 
+procedure TForm2.FormActivate(Sender: TObject);
+begin
+  if FFirstTime then begin
+    FFirstTime := False;
+    lblLogFilename.Caption := 'Logging to: ' + WebLogger.LogFilename;
+  end;
+end;
+
 procedure TForm2.FormCreate(Sender: TObject);
 begin
   FServer := TIdHTTPWebBrokerBridge.Create(Self);
+  FFirstTime := True;
 end;
 
 procedure TForm2.StartServer;
