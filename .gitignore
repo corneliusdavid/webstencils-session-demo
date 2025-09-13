@@ -1,5 +1,13 @@
 /__recovery
 /__history
+/html/__history
 *.db
+*.dproj
+*.local
+*.~*
 *.dsv
 *.rsm
+*.dsk
+*.dcu
+*.exe
+*.res
