@@ -6,7 +6,7 @@ uses
   Web.WebReq,
   IdHTTPWebBrokerBridge,
   ufrmCustListWebStencil in 'ufrmCustListWebStencil.pas' {Form2},
-  uwebCustListWebStencil in 'uwebCustListWebStencil.pas' {f: TWebModule},
+  uwebCustListWebStencil in 'uwebCustListWebStencil.pas' {webCustListWebStencil: TWebModule},
   udmCust in 'udmCust.pas' {dmCust: TDataModule},
   uLogging in 'uLogging.pas';
 
