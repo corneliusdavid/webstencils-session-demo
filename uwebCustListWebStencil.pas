@@ -10,20 +10,18 @@ uses
   System.SysUtils, System.Classes, Web.HTTPApp, Web.HTTPProd, Web.Stencils;
 
 type
-  Tf = class(TWebModule)
+  TwebCustListWebStencil = class(TWebModule)
     wspIndex: TWebStencilsProcessor;
     wsEngineCustList: TWebStencilsEngine;
     wspLoginFailed: TWebStencilsProcessor;
     wspCustList: TWebStencilsProcessor;
     wspAccessDenied: TWebStencilsProcessor;
     wspCustEdit: TWebStencilsProcessor;
-    WebAuthorizer: TWebAuthorizer;
-    WebFormsAuthenticator1: TWebFormsAuthenticator;
-    WebSessionMgr: TWebSessionManager;
     wspLogin: TWebStencilsProcessor;
+    WebSessionManager1: TWebSessionManager;
+    WebFormsAuthenticator1: TWebFormsAuthenticator;
+    WebAuthorizer1: TWebAuthorizer;
     procedure WebModuleCreate(Sender: TObject);
-    procedure webCustListWebStencilwaLoginVerifyAction(Sender: TObject; Request: TWebRequest; Response: TWebResponse;
-      var Handled: Boolean);
     procedure webCustListWebStencilwaListCustomersAction(Sender: TObject; Request: TWebRequest; Response: TWebResponse;
       var Handled: Boolean);
     procedure webCustListWebStencilwaEditCustomerAction(Sender: TObject; Request: TWebRequest; Response: TWebResponse;
@@ -33,6 +31,11 @@ type
       Request: TWebRequest; Session: TWebSession);
     procedure WebSessionMgrAcquire(Sender: TCustomWebSessionManager;
       Request: TWebRequest; Session: TWebSession);
+    procedure WebFormsAuthenticator1Authenticate(
+      Sender: TCustomWebAuthenticator; Request: TWebRequest; const UserName,
+      Password: string; var Roles: string; var Success: Boolean);
+    procedure webCustListWebStencilwaLogoutAction(Sender: TObject;
+      Request: TWebRequest; Response: TWebResponse; var Handled: Boolean);
   private
     // these are NOT accessible by the WebStencilsEngine
     FVersion: string;
@@ -44,7 +47,7 @@ type
   end;
 
 var
-  WebModuleClass: TComponentClass = Tf;
+  WebModuleClass: TComponentClass = TwebCustListWebStencil;
 
 implementation
 
@@ -53,10 +56,10 @@ implementation
 {$R *.dfm}
 
 uses
-  Dialogs, System.bindings.EvalProtocol, System.Bindings.Methods,
+  Dialogs, System.IOUtils, System.bindings.EvalProtocol, System.Bindings.Methods,
   udmCust, uLogging;
 
-procedure Tf.webCustListWebStencilwaEditCustomerAction(Sender: TObject; Request: TWebRequest;
+procedure TwebCustListWebStencil.webCustListWebStencilwaEditCustomerAction(Sender: TObject; Request: TWebRequest;
   Response: TWebResponse; var Handled: Boolean);
 var
   CustNo: string;
@@ -81,7 +84,7 @@ begin
   end;
 end;
 
-procedure Tf.webCustListWebStencilwaListCustomersAction(Sender: TObject; Request: TWebRequest;
+procedure TwebCustListWebStencil.webCustListWebStencilwaListCustomersAction(Sender: TObject; Request: TWebRequest;
   Response: TWebResponse; var Handled: Boolean);
 begin
   dmCust.qryCustomers.Open;
@@ -99,44 +102,47 @@ begin
   end;
 end;
 
-procedure Tf.webCustListWebStencilwaLoginVerifyAction(Sender: TObject; Request: TWebRequest;
-  Response: TWebResponse; var Handled: Boolean);
-var
-  Username, Password: string;
+procedure TwebCustListWebStencil.webCustListWebStencilwaLogoutAction(
+  Sender: TObject; Request: TWebRequest; Response: TWebResponse;
+  var Handled: Boolean);
 begin
-  Username := Request.ContentFields.Values['uname'];
-  Password := Request.ContentFields.Values['psw'];
-  if dmCust.LoginCheck(Username, Password) then
-  begin
-    wspCustList.UserLoggedIn := True;
-    wspCustEdit.UserLoggedIn := True;
-    Response.SendRedirect('/custlist');
-  end else
-    Response.Content := wspLoginFailed.Content;
-
-  Handled := True;
+  WebAuthorizer1.
 end;
 
-procedure Tf.WebModuleCreate(Sender: TObject);
+procedure TwebCustListWebStencil.WebFormsAuthenticator1Authenticate(
+  Sender: TCustomWebAuthenticator; Request: TWebRequest; const UserName,
+  Password: string; var Roles: string; var Success: Boolean);
+begin
+  Success := dmCust.LoginCheck(Username, Password);
+end;
+
+procedure TwebCustListWebStencil.WebModuleCreate(Sender: TObject);
 begin
   FTitle := 'Customer List for WebStencils with Session Management';
   FVersion := '0.4';
   wsEngineCustList.AddVar('App', Self, False);
+  wsEngineCustList.RootDirectory := TPath.Combine(ExtractFilePath(ParamStr(0)), 'html');
+  for var i := 0 to ComponentCount - 1 do begin
+    if Components[i] is TWebStencilsProcessor then
+      TWebStencilsProcessor(Components[i]).InputFileName := TPath.Combine(
+        wsEngineCustList.RootDirectory, TWebStencilsProcessor(Components[i]).InputFileName);
+  end;
+
 end;
 
-procedure Tf.WebSessionMgrAcquire(Sender: TCustomWebSessionManager;
+procedure TwebCustListWebStencil.WebSessionMgrAcquire(Sender: TCustomWebSessionManager;
   Request: TWebRequest; Session: TWebSession);
 begin
   WebLogger.Add('WebSessionMgr acquired a session');
 end;
 
-procedure Tf.WebSessionMgrCreated(Sender: TCustomWebSessionManager;
+procedure TwebCustListWebStencil.WebSessionMgrCreated(Sender: TCustomWebSessionManager;
   Request: TWebRequest; Session: TWebSession);
 begin
   WebLogger.Add('WebSessionMgr was created');
 end;
 
-procedure Tf.wsEngineCustListError(Sender: TObject; const AMessage: string);
+procedure TwebCustListWebStencil.wsEngineCustListError(Sender: TObject; const AMessage: string);
 begin
   WebLogger.Add('WebEngine ERROR: ' + AMessage);
   ShowMessage(AMessage);
