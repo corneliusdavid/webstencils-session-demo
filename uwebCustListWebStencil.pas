@@ -105,8 +105,16 @@ end;
 procedure TwebCustListWebStencil.webCustListWebStencilwaLogoutAction(
   Sender: TObject; Request: TWebRequest; Response: TWebResponse;
   var Handled: Boolean);
+var
+  LSession: TWebSession;
 begin
-  WebAuthorizer1.
+  if Assigned(Request) then
+    LSession := Request.Session;
+
+  if Assigned(LSession) then
+    LSession.Login(nil);
+
+  Response.SendRedirect('/');
 end;
 
 procedure TwebCustListWebStencil.WebFormsAuthenticator1Authenticate(
