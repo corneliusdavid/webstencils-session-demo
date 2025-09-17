@@ -1,28 +1,29 @@
 object dmCust: TdmCust
   OnCreate = DataModuleCreate
-  Height = 315
-  Width = 427
+  Height = 473
+  Width = 641
+  PixelsPerInch = 144
   object FDConnChinook: TFDConnection
     Params.Strings = (
       'ConnectionDef=WebStencils Session Demo')
     ConnectedStoredUsage = [auDesignTime]
     LoginPrompt = False
-    Left = 136
-    Top = 104
+    Left = 204
+    Top = 156
   end
   object FDPhysSQLiteDriverLink1: TFDPhysSQLiteDriverLink
-    Left = 144
-    Top = 176
+    Left = 216
+    Top = 264
   end
   object qryUserVerify: TFDQuery
     Connection = FDConnChinook
     SQL.Strings = (
       'SELECT FirstName, LastName, Title, EmployeeID'
-      'FROM Employees'
+      'FROM Employee'
       'WHERE Upper(FirstName) = Upper(:FName)'
       '  AND :Password = EmployeeId || LastName;')
-    Left = 240
-    Top = 56
+    Left = 360
+    Top = 84
     ParamData = <
       item
         Name = 'FNAME'
@@ -61,9 +62,9 @@ object dmCust: TdmCust
   object qryCustCount: TFDQuery
     Connection = FDConnChinook
     SQL.Strings = (
-      'select count(1) as CustCount from customers')
-    Left = 256
-    Top = 216
+      'select count(1) as CustCount from customer')
+    Left = 384
+    Top = 324
     object qryCustCountCustCount: TLargeintField
       AutoGenerateValue = arDefault
       FieldName = 'CustCount'
@@ -78,13 +79,13 @@ object dmCust: TdmCust
     SQL.Strings = (
       'SELECT c.CustomerId, c.FirstName, c.LastName, c.Company, '
       '  COUNT(i.InvoiceId) AS InvCount, SUM(i.Total) AS TotalInvoices'
-      'FROM customers c'
-      'JOIN invoices i ON c.CustomerId = i.CustomerId '
+      'FROM customer c'
+      'JOIN invoice i ON c.CustomerId = i.CustomerId '
       'GROUP BY c.CustomerId '
       'ORDER BY c.LastName'
       ' ')
-    Left = 256
-    Top = 136
+    Left = 384
+    Top = 204
     object qryCustomersCustomerId: TFDAutoIncField
       FieldName = 'CustomerId'
       Origin = 'CustomerId'
@@ -132,10 +133,10 @@ object dmCust: TdmCust
     SQL.Strings = (
       'SELECT CustomerId, FirstName, LastName, Company,'
       '  Address, City, [State], Country, PostalCode, Phone, Email'
-      'FROM Customers'
+      'FROM Customer'
       'WHERE CustomerId = :CustID')
-    Left = 328
-    Top = 160
+    Left = 492
+    Top = 240
     ParamData = <
       item
         Name = 'CUSTID'
