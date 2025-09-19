@@ -105,7 +105,7 @@ begin
     FEmpLastName  := qryUserVerifyLastName.AsString;
     FEmpTitle     := qryUserVerifyTitle.AsString;
 
-    if FEmpTitle.Contains('Management', True) then
+    if FEmpTitle.Contains('Manager', True) then
       FEmpRole := erAdmin
     else
       // require "IT" to be all caps to help prevent catching "it" as part of other words
