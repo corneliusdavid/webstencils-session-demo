@@ -1,7 +1,7 @@
 object dmCust: TdmCust
   OnCreate = DataModuleCreate
-  Height = 473
-  Width = 641
+  Height = 479
+  Width = 652
   PixelsPerInch = 144
   object FDConnChinook: TFDConnection
     Params.Strings = (
