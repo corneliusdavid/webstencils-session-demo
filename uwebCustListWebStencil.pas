@@ -40,10 +40,14 @@ type
     // these are NOT accessible by the WebStencilsEngine
     FVersion: string;
     FTitle: string;
+    FFullName: string;
+    FJobTitle: string;
   public
     // these will be available by the WebStencilsEngine parser
     property Title: string read FTitle write FTitle;
     property Version: string read FVersion write FVersion;
+    property FullName: string read FFullName write FFullName;
+    property JobTitle: string read FJobTitle write FJobTitle;
   end;
 
 var
@@ -122,12 +126,15 @@ procedure TwebCustListWebStencil.WebFormsAuthenticator1Authenticate(
   Password: string; var Roles: string; var Success: Boolean);
 begin
   Success := dmCust.LoginCheck(Username, Password);
+  if Success then
+    FFullName := dmCust.EmployeeFirstName + ' ' + dmCust.EmployeeLastName;
+    FJobTitle := dmCust.EmployeeTitle;
 end;
 
 procedure TwebCustListWebStencil.WebModuleCreate(Sender: TObject);
 begin
   FTitle := 'Customer List for WebStencils with Session Management';
-  FVersion := '0.4';
+  FVersion := '0.7';
   wsEngineCustList.AddVar('App', Self, False);
   wsEngineCustList.RootDirectory := TPath.Combine(ExtractFilePath(ParamStr(0)), 'html');
   for var i := 0 to ComponentCount - 1 do begin
