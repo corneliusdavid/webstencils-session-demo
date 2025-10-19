@@ -1,5 +1,9 @@
 # WebStencils Session Demo #
 
+[![Delphi](https://img.shields.io/badge/RAD%20Studio-Delphi-red.svg)](https://www.embarcadero.com/products/rad-studio)
+[![Platform](https://img.shields.io/badge/Platform-Windows/Web-blue.svg)]()
+[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+
 WebStencils is a scripting technology, introduced with Delphi 12.2; with Delphi 13, Session Management has been added to the underlying technology making interactive web sites built with Delphi feasible without a lot of work or third-party components.
 
 The previous iteration of this demo, [WebStencils Demo](https://github.com/corneliusdavid/webstencils-demo), compared the old WebBroker-style tag replacement with the newer WebStencils scripting and replacement syntax but it did not use any session management for user authentication; therefore, if you logged in on one browser, then opened a different browser to the same address and port, it was already logged in! The same thing would happen on a public website without session management.
