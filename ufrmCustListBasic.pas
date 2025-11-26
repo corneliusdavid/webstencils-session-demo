@@ -1,4 +1,4 @@
-unit ufrmCustListWebStencil;
+unit ufrmCustListBasic;
 
 interface
 
@@ -8,7 +8,7 @@ uses
   Vcl.AppEvnts, Vcl.StdCtrls, IdHTTPWebBrokerBridge, IdGlobal, Web.HTTPApp;
 
 type
-  TForm2 = class(TForm)
+  TfrmWebStencilsBasicDemo = class(TForm)
     ButtonStart: TButton;
     ButtonStop: TButton;
     EditPort: TEdit;
@@ -29,7 +29,7 @@ type
   end;
 
 var
-  Form2: TForm2;
+  frmWebStencilsBasicDemo: TfrmWebStencilsBasicDemo;
 
 implementation
 
@@ -42,14 +42,14 @@ uses
   System.Generics.Collections,
   uLogging;
 
-procedure TForm2.ApplicationEvents1Idle(Sender: TObject; var Done: Boolean);
+procedure TfrmWebStencilsBasicDemo.ApplicationEvents1Idle(Sender: TObject; var Done: Boolean);
 begin
   ButtonStart.Enabled := not FServer.Active;
   ButtonStop.Enabled := FServer.Active;
   EditPort.Enabled := not FServer.Active;
 end;
 
-procedure TForm2.ButtonOpenBrowserClick(Sender: TObject);
+procedure TfrmWebStencilsBasicDemo.ButtonOpenBrowserClick(Sender: TObject);
 {$IFDEF MSWINDOWS}
 var
   LURL: string;
@@ -64,18 +64,18 @@ begin
 {$ENDIF}
 end;
 
-procedure TForm2.ButtonStartClick(Sender: TObject);
+procedure TfrmWebStencilsBasicDemo.ButtonStartClick(Sender: TObject);
 begin
   StartServer;
 end;
 
-procedure TForm2.ButtonStopClick(Sender: TObject);
+procedure TfrmWebStencilsBasicDemo.ButtonStopClick(Sender: TObject);
 begin
   FServer.Active := False;
   FServer.Bindings.Clear;
 end;
 
-procedure TForm2.FormActivate(Sender: TObject);
+procedure TfrmWebStencilsBasicDemo.FormActivate(Sender: TObject);
 begin
   if FFirstTime then begin
     FFirstTime := False;
@@ -83,13 +83,13 @@ begin
   end;
 end;
 
-procedure TForm2.FormCreate(Sender: TObject);
+procedure TfrmWebStencilsBasicDemo.FormCreate(Sender: TObject);
 begin
   FServer := TIdHTTPWebBrokerBridge.Create(Self);
   FFirstTime := True;
 end;
 
-procedure TForm2.StartServer;
+procedure TfrmWebStencilsBasicDemo.StartServer;
 begin
   if not FServer.Active then
   begin

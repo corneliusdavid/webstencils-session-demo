@@ -1,4 +1,4 @@
-unit ufrmCustListWebStarter;
+unit ufrmCustListForm;
 
 interface
 
@@ -8,28 +8,28 @@ uses
   Vcl.AppEvnts, Vcl.StdCtrls, IdHTTPWebBrokerBridge, IdGlobal, Web.HTTPApp;
 
 type
-  TfrmCustListWebBroker = class(TForm)
+  TForm2 = class(TForm)
     ButtonStart: TButton;
     ButtonStop: TButton;
     EditPort: TEdit;
     Label1: TLabel;
     ApplicationEvents1: TApplicationEvents;
     ButtonOpenBrowser: TButton;
+    lblLogFilename: TLabel;
     procedure FormCreate(Sender: TObject);
     procedure ApplicationEvents1Idle(Sender: TObject; var Done: Boolean);
     procedure ButtonStartClick(Sender: TObject);
     procedure ButtonStopClick(Sender: TObject);
     procedure ButtonOpenBrowserClick(Sender: TObject);
+    procedure FormActivate(Sender: TObject);
   private
     FServer: TIdHTTPWebBrokerBridge;
+    FFirstTime: Boolean;
     procedure StartServer;
-    { Private declarations }
-  public
-    { Public declarations }
   end;
 
 var
-  frmCustListWebBroker: TfrmCustListWebBroker;
+  Form2: TForm2;
 
 implementation
 
@@ -39,16 +39,17 @@ uses
 {$IFDEF MSWINDOWS}
   WinApi.Windows, Winapi.ShellApi,
 {$ENDIF}
-  System.Generics.Collections;
+  System.Generics.Collections,
+  uLogging;
 
-procedure TfrmCustListWebBroker.ApplicationEvents1Idle(Sender: TObject; var Done: Boolean);
+procedure TForm2.ApplicationEvents1Idle(Sender: TObject; var Done: Boolean);
 begin
   ButtonStart.Enabled := not FServer.Active;
   ButtonStop.Enabled := FServer.Active;
   EditPort.Enabled := not FServer.Active;
 end;
 
-procedure TfrmCustListWebBroker.ButtonOpenBrowserClick(Sender: TObject);
+procedure TForm2.ButtonOpenBrowserClick(Sender: TObject);
 {$IFDEF MSWINDOWS}
 var
   LURL: string;
@@ -63,23 +64,32 @@ begin
 {$ENDIF}
 end;
 
-procedure TfrmCustListWebBroker.ButtonStartClick(Sender: TObject);
+procedure TForm2.ButtonStartClick(Sender: TObject);
 begin
   StartServer;
 end;
 
-procedure TfrmCustListWebBroker.ButtonStopClick(Sender: TObject);
+procedure TForm2.ButtonStopClick(Sender: TObject);
 begin
   FServer.Active := False;
   FServer.Bindings.Clear;
 end;
 
-procedure TfrmCustListWebBroker.FormCreate(Sender: TObject);
+procedure TForm2.FormActivate(Sender: TObject);
 begin
-  FServer := TIdHTTPWebBrokerBridge.Create(Self);
+  if FFirstTime then begin
+    FFirstTime := False;
+    lblLogFilename.Caption := 'Logging to: ' + WebLogger.LogFilename;
+  end;
 end;
 
-procedure TfrmCustListWebBroker.StartServer;
+procedure TForm2.FormCreate(Sender: TObject);
+begin
+  FServer := TIdHTTPWebBrokerBridge.Create(Self);
+  FFirstTime := True;
+end;
+
+procedure TForm2.StartServer;
 begin
   if not FServer.Active then
   begin

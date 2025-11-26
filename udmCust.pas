@@ -69,6 +69,9 @@ implementation
 
 {$R *.dfm}
 
+uses
+  IOUtils;
+
 { TdmCust }
 
 function TdmCust.CustCount: Integer;
@@ -81,6 +84,7 @@ end;
 procedure TdmCust.DataModuleCreate(Sender: TObject);
 begin
   ClearLogin;
+  FDConnChinook.Params.Database := TPath.Combine(ExtractFilePath(ParamStr(0)), 'chinook.db');
 end;
 
 procedure TdmCust.ClearLogin;

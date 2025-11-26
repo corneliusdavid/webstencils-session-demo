@@ -1,7 +1,7 @@
-object frmCustListWebBroker: TfrmCustListWebBroker
+object frmWebStencilsBasicDemo: TfrmWebStencilsBasicDemo
   Left = 271
   Top = 114
-  Caption = 'CustList WebBroker'
+  Caption = 'WebStencils Demo with Basic Authentication'
   ClientHeight = 235
   ClientWidth = 399
   Color = clBtnFace
@@ -10,6 +10,7 @@ object frmCustListWebBroker: TfrmCustListWebBroker
   Font.Height = -11
   Font.Name = 'Tahoma'
   Font.Style = []
+  OnActivate = FormActivate
   OnCreate = FormCreate
   TextHeight = 13
   object Label1: TLabel
@@ -18,6 +19,13 @@ object frmCustListWebBroker: TfrmCustListWebBroker
     Width = 20
     Height = 13
     Caption = 'Port'
+  end
+  object lblLogFilename: TLabel
+    Left = 32
+    Top = 192
+    Width = 69
+    Height = 13
+    Caption = 'lblLogFilename'
   end
   object ButtonStart: TButton
     Left = 24
@@ -43,7 +51,7 @@ object frmCustListWebBroker: TfrmCustListWebBroker
     Width = 121
     Height = 21
     TabOrder = 2
-    Text = '8081'
+    Text = '8080'
   end
   object ButtonOpenBrowser: TButton
     Left = 24

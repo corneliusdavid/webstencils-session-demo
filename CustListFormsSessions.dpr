@@ -1,12 +1,12 @@
-program CustListSessionedWebStencils;
+program CustListFormsSessions;
 {$APPTYPE GUI}
 
 uses
   Vcl.Forms,
   Web.WebReq,
   IdHTTPWebBrokerBridge,
-  ufrmCustListWebStencil in 'ufrmCustListWebStencil.pas' {Form2},
-  uwebCustListWebStencil in 'uwebCustListWebStencil.pas' {webCustListWebStencil: TWebModule},
+  ufrmCustListForm in 'ufrmCustListForm.pas' {Form2},
+  uwebCustListForm in 'uwebCustListForm.pas' {webCustListWebStencil: TWebModule},
   udmCust in 'udmCust.pas' {dmCust: TDataModule},
   uLogging in 'uLogging.pas';
 

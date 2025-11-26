@@ -3,5 +3,7 @@
   <div class="center-block">
     <h2>WebStencils Demo</h2>
     <h4>With Session Management</h4>
-    <p>Click <a href="/login">login</a> to view the customer list.</p>
+    <p>@if App.UsesFormLogin {<a href="/login">Login</a>}
+       @else {<a href="/custlist">Login</a>}
+    </p>
   </div>

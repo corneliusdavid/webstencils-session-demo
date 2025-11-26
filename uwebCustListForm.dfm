@@ -28,7 +28,7 @@ object webCustListWebStencil: TwebCustListWebStencil
     item
       MethodType = mtGet
       Name = 'waLoginFailed'
-      PathInfo = '/inavlid_user'
+      PathInfo = '/invalid_user'
       Producer = wspLoginFailed
     end
     item
@@ -40,7 +40,7 @@ object webCustListWebStencil: TwebCustListWebStencil
     item
       Name = 'waUnauthorized'
       PathInfo = '/unauthorized'
-      Producer = wspAccessDenied
+      Producer = wspLoginFailed
     end
     item
       MethodType = mtGet
@@ -48,71 +48,62 @@ object webCustListWebStencil: TwebCustListWebStencil
       PathInfo = '/logout'
       OnAction = webCustListWebStencilwaLogoutAction
     end>
-  Height = 628
-  Width = 784
-  PixelsPerInch = 144
+  Height = 407
+  Width = 455
   object wspIndex: TWebStencilsProcessor
     Engine = wsEngineCustList
-    InputFileName = 'index-wStencils.html'
+    InputFileName = 'index.html'
     PathTemplate = 'html'
-    Left = 156
-    Top = 156
+    Left = 104
+    Top = 104
   end
   object wsEngineCustList: TWebStencilsEngine
     PathTemplates = <>
     RootDirectory = '/html'
     OnError = wsEngineCustListError
-    Left = 96
-    Top = 48
+    Left = 256
+    Top = 32
   end
   object wspLoginFailed: TWebStencilsProcessor
     Engine = wsEngineCustList
-    InputFileName = 'loginfailed-wStencils.html'
-    Left = 148
-    Top = 364
+    InputFileName = 'loginfailed.html'
+    PathTemplate = 'html'
+    Left = 99
+    Top = 243
   end
   object wspCustList: TWebStencilsProcessor
     Engine = wsEngineCustList
-    InputFileName = 'custlist-wStencils.html'
-    UserLoggedIn = True
-    Left = 312
-    Top = 328
-  end
-  object wspAccessDenied: TWebStencilsProcessor
-    Engine = wsEngineCustList
-    InputFileName = 'accessdenied-wStencils.html'
-    Left = 152
-    Top = 468
+    InputFileName = 'custlist.html'
+    PathTemplate = 'html'
+    Left = 208
+    Top = 219
   end
   object wspCustEdit: TWebStencilsProcessor
     Engine = wsEngineCustList
-    InputFileName = 'custedit-wStencils.html'
-    Left = 304
-    Top = 408
+    InputFileName = 'custedit.html'
+    Left = 203
+    Top = 272
   end
   object wspLogin: TWebStencilsProcessor
     Engine = wsEngineCustList
-    InputFileName = 'login-wStencils.html'
-    UserLoggedIn = True
-    Left = 164
-    Top = 244
+    InputFileName = 'loginform.html'
+    PathTemplate = 'html'
+    Left = 109
+    Top = 163
   end
-  object WebSessionManager1: TWebSessionManager
-    Left = 496
-    Top = 112
+  object WebSessionMgr: TWebSessionManager
+    OnIdGenerate = WebSessionMgrIdGenerate
+    OnValidate = WebSessionMgrValidate
+    Left = 331
+    Top = 75
   end
-  object WebFormsAuthenticator1: TWebFormsAuthenticator
+  object WebFormsAuthenticator: TWebFormsAuthenticator
     LoginURL = '/login'
     FailedURL = '/invalid_user'
     HomeURL = '/custlist'
     LogoutURL = '/'
-    OnAuthenticate = WebFormsAuthenticator1Authenticate
-    Left = 504
-    Top = 224
-  end
-  object WebAuthorizer1: TWebAuthorizer
-    Zones = <>
-    Left = 504
-    Top = 344
+    OnAuthenticate = WebFormsAuthenticatorAuthenticate
+    Left = 336
+    Top = 149
   end
 end

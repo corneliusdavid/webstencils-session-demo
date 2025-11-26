@@ -17,8 +17,11 @@
 
   <div class="row">
     <div class="col-md-12">
-      <h2 class="text-center text-primary">@App.Title</h2>
-      <h4 class="text-center text-primary">Version @App.Version</h4>
+      @if App.IsHome
+        {<h2 class="text-center text-primary">@App.Title</h2>}
+      @else
+        {<h4 class="text-center text-primary">@App.Title</h4>}
+      <h5 class="text-center text-primary">Version @App.Version</h5>
     </div>
   </div>
 
