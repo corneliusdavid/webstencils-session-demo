@@ -1,28 +1,32 @@
 @LayoutPage custlistframework1.html
+@import custlist-style.html
 
 <h2>Customers</h2>
 <div class="col-sm-10">
 
 <p>Logged in as: <strong>@App.FullName [@App.UserTitle]</strong></p>
 
-<Table Width="100%" CellSpacing=10 CellPadding=8 Border=1 BgColor="White"><Caption >All Customers</Caption>
-<TR BgColor="cyan">
-  <TH Align="right" BgColor="Silver" style="padding-right: 10px;">ID</TH>
-  <TH Align="left" BgColor="Silver">First</TH>
-  <TH Align="left" BgColor="Silver">Last</TH>
-  <TH Align="left" BgColor="Silver">Company</TH>
-</TR>
-
-  @foreach CustList {
+<table class="customer-table">
+  <caption>All Customers</caption>
+  <thead>
     <tr>
-      <td align="right" width="40" style="padding-right: 5px;"><a href="\custedit?cust_no=@loop.CustomerId">@loop.CustomerId</a></td>
-      <td @if loop.IsBusiness { class="company_row" }>@loop.FirstName</td>
-      <td @if loop.IsBusiness { class="company_row" }>@loop.LastName</td>
-      <td @if loop.IsBusiness { class="company_row" }>@loop.Company</td>
+      <th class="id-column">ID</th>
+      <th>First</th>
+      <th>Last</th>
+      <th>Company</th>
     </tr>
-  }
+  </thead>
+  <tbody>
+    @foreach CustList {
+      <tr>
+        <td class="id-cell"><a href="\custedit?cust_no=@loop.CustomerId">@loop.CustomerId</a></td>
+        <td @if loop.IsBusiness { class="company_row" }>@loop.FirstName</td>
+        <td @if loop.IsBusiness { class="company_row" }>@loop.LastName</td>
+        <td @if loop.IsBusiness { class="company_row" }>@loop.Company</td>
+      </tr>
+    }
+  </tbody>
 </table>
 </div>
 
 <p><a href="/logout"><strong>Logout</strong></a></p>
-
