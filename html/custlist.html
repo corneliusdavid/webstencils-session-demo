@@ -19,7 +19,11 @@
   <tbody>
     @foreach CustList {
       <tr>
-        <td class="id-cell"><a href="\custedit?cust_no=@loop.CustomerId">@loop.CustomerId</a></td>
+        <td class="id-cell">
+            @if App.CanEdit { <a href="\custedit?cust_no=@loop.CustomerId"> }
+                @loop.CustomerId
+            @if App.CanEdit { </a> }
+        </td>
         <td @if loop.IsBusiness { class="company_row" }>@loop.FirstName</td>
         <td @if loop.IsBusiness { class="company_row" }>@loop.LastName</td>
         <td @if loop.IsBusiness { class="company_row" }>@loop.Company</td>

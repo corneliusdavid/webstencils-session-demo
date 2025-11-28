@@ -40,6 +40,8 @@ type
     FUserTitle: string;
     FVersion: string;
     FTitle: string;
+    FCanEdit: Boolean;
+    FIsMgr: Boolean;
     FIsHome: Boolean;
     FUsesFormLogin: Boolean;
   public
@@ -48,6 +50,8 @@ type
     property Version: string read FVersion;
     property FullName: string read FFullName;
     property UserTitle: string read FUserTitle;
+    property CanEdit: Boolean read FCanEdit write FCanEdit;
+    property IsMgr: Boolean read FIsMgr write FIsMgr;
     property IsHome: Boolean read FIsHome;
     property UsesFormLogin: Boolean read FUsesFormLogin;
   end;
@@ -138,7 +142,11 @@ begin
   if Success then begin
     FFullName := dmCust.EmployeeFirstName + ' ' + dmCust.EmployeeLastName;
     FUserTitle := dmCust.EmployeeTitle;
+    FIsMgr := Pos('MANAGER', UpperCase(FUserTitle)) > 0;
+    FCanEdit := FIsMgr or (Pos('IT', UpperCase(FUserTitle)) > 0);
     FIsHome := False;
+
+    //Roles := if FIsMgr then 'mgr' else if FCanEdit then 'IT' else EmptyStr;
   end;
 end;
 
@@ -183,6 +191,8 @@ begin
 
   FFullName := EmptyStr;
   FUserTitle := EmptyStr;
+  FCanEdit := False;
+  FIsMgr := False;
 
   FIsHome := True;
   Response.SendRedirect('/');

@@ -3,7 +3,12 @@ body {
     line-height: 1.6;
     margin: 0;
     padding: 20px;
-    background-color: #f4f4f4;
+    @if App.IsMgr {
+      background-color: #ff5555;
+    }
+    @else {
+      background-color: #f4f4f4;
+    }
 }
 .container {
     max-width: 800px;
