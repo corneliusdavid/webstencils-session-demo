@@ -58,7 +58,7 @@ Once logged in, the customer list is shown.
 
 ### Role-Based Access
 
-To illustrate WebBroker's new user authentication capabilities, the project implements three different roles that have affect the generated web pages. These roles are defined by key words in the `Employee`.`Title` field:
+To illustrate both conditional HTML scripting with WebStencils and WebBroker's new user authentication capabilities, the project implements three different roles that affect and control access to the generated web pages. These roles are defined by key words in the `Title` field of the `Employee` table:
 
 - if the `Title` field contains the word "Manager", the user role is MGR;
 - else if the `Title` field contains the word "IT", the user role is EDITOR;
@@ -69,11 +69,11 @@ Once logged in, the background for a MGR will change to red. Both a MGR and an E
 In the included sample database, the following user credentials are examples of each of these:
 - `STEVE`/`5Johnson` - VIEWER
 - `ROBERT`/`7King` - EDITOR
-- `ANDREW`/`Adams` - MGR
+- `ANDREW`/`1Adams` - MGR
 
 ### Logging
 
-The project contains a unit, `uLogging.pas`, for providing simple logging when various events fire. The log files are created in the user's `ProgramData` folder.
+The project contains a unit, `uLogging.pas`, for providing simple logging to provide visibility on when various events fire. The log files are created in the user's `ProgramData` folder.
 
 ## Blog
 

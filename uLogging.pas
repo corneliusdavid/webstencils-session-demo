@@ -36,7 +36,7 @@ end;
 
 constructor TWebLogger.Create;
 begin
-  FLogFilePath := TPath.GetPublicPath;
+  FLogFilePath := ExtractFilePath(ParamStr(0));
   FLogFileBase := 'WebLog_' + FormatDateTime('yyyy_mm_dd', Date);
   FLogFilename := TPath.Combine(FLogFilePath, FLogFileBase + '.log');
 
