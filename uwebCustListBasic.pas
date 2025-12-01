@@ -16,30 +16,19 @@ type
     wspLoginFailed: TWebStencilsProcessor;
     wspCustList: TWebStencilsProcessor;
     wspCustEdit: TWebStencilsProcessor;
-    WebSessionMgr: TWebSessionManager;
     WebBasicAuthenticator: TWebBasicAuthenticator;
     WebBasicAuthorizer: TWebAuthorizer;
-    procedure BasicWebAuthorizerAuthorize(Sender: TCustomWebAuthorizer; Request:
-        TWebRequest; const User: IWebUser; var Success: Boolean);
     procedure WebModuleCreate(Sender: TObject);
     procedure webCustListWebStencilwaListCustomersAction(Sender: TObject; Request: TWebRequest; Response: TWebResponse;
       var Handled: Boolean);
     procedure webCustListWebStencilwaEditCustomerAction(Sender: TObject; Request: TWebRequest; Response: TWebResponse;
       var Handled: Boolean);
     procedure wsEngineCustListError(Sender: TObject; const AMessage: string);
-    procedure WebSessionMgrCreated(Sender: TCustomWebSessionManager;
-      Request: TWebRequest; Session: TWebSession);
-    procedure WebSessionMgrAcquire(Sender: TCustomWebSessionManager;
-      Request: TWebRequest; Session: TWebSession);
     procedure WebBasicAuthenticatorAuthenticate(
       Sender: TCustomWebAuthenticator; Request: TWebRequest; const UserName,
       Password: string; var Roles: string; var Success: Boolean);
     procedure webCustListWebStencilwaLogoutAction(Sender: TObject;
       Request: TWebRequest; Response: TWebResponse; var Handled: Boolean);
-    procedure WebSessionMgrIdGenerate(Sender: TCustomWebSessionManager; Request:
-        TWebRequest; const User: IWebUser; var SessionId: string);
-    procedure WebSessionMgrValidate(Sender: TCustomWebSessionManager; Request:
-        TWebRequest; var Session: TWebSession; var Status: TWebSessionStatus);
   private
     // these are NOT accessible by the WebStencilsEngine
     FTitle: string;
@@ -87,19 +76,6 @@ begin
     if Components[i] is TWebStencilsProcessor then
       TWebStencilsProcessor(Components[i]).InputFileName := TPath.Combine(
         wsEngineCustList.RootDirectory, TWebStencilsProcessor(Components[i]).InputFileName);
-  end;
-end;
-
-procedure TwebCustListBasic.BasicWebAuthorizerAuthorize(Sender:
-    TCustomWebAuthorizer; Request: TWebRequest; const User: IWebUser; var
-    Success: Boolean);
-var
-  CurrZone: string;
-begin
-  if Assigned(User) then begin
-    Success := dmCust.LoginCheck(User.UserName, EmptyStr);
-    FFullName := dmCust.EmployeeFirstName + ' ' + dmCust.EmployeeLastName;
-    FUserTitle := dmCust.EmployeeTitle;
   end;
 end;
 
@@ -175,43 +151,6 @@ begin
 
     Roles := 'viewer';
   end;
-end;
-
-procedure TwebCustListBasic.WebSessionMgrAcquire(Sender: TCustomWebSessionManager;
-  Request: TWebRequest; Session: TWebSession);
-begin
-  WebLogger.Add('WebSessionMgr acquired a session');
-end;
-
-procedure TwebCustListBasic.WebSessionMgrCreated(Sender: TCustomWebSessionManager;
-  Request: TWebRequest; Session: TWebSession);
-begin
-  WebLogger.Add(Format('New session created: %s', [Session.Id]));
-  WebLogger.Add(Format('Request Path: %s', [Request.PathInfo]));
-  WebLogger.Add(Format('Request Method: %s', [Request.Method]));
-end;
-
-procedure TwebCustListBasic.WebSessionMgrIdGenerate(Sender:
-    TCustomWebSessionManager; Request: TWebRequest; const User: IWebUser; var
-    SessionId: string);
-begin
-  if Assigned(User) then
-    WebLogger.Add(Format('WebSessionMgr generated ID [%s] for user [%s]',
-                         [SessionID, User.UserName]))
-  else
-    WebLogger.Add(Format('WebSessionMgr generated ID [%s]', [SessionID]));
-end;
-
-procedure TwebCustListBasic.WebSessionMgrValidate(Sender:
-    TCustomWebSessionManager; Request: TWebRequest; var Session: TWebSession;
-    var Status: TWebSessionStatus);
-begin
-  if Assigned(Session) then
-    WebLogger.Add(Format('WebSessionMgr.OnValidate: Request: [%s], SessionId: [%s]',
-                         [Request.PathInfo, Session.Id]))
-  else
-    WebLogger.Add(Format('WebSessionMgr.OnValidate: Request: [%s]',
-                         [Request.PathInfo]));
 end;
 
 procedure TwebCustListBasic.wsEngineCustListError(Sender: TObject; const AMessage: string);

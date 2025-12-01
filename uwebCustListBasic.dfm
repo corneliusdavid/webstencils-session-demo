@@ -12,7 +12,7 @@ object webCustListBasic: TwebCustListBasic
       MethodType = mtGet
       Name = 'waListCustomers'
       PathInfo = '/custlist'
-      OnAction = webCustListWebStencilwaListCustomersAction
+      Producer = wspCustList
     end
     item
       MethodType = mtGet
@@ -58,7 +58,6 @@ object webCustListBasic: TwebCustListBasic
     Engine = wsEngineCustList
     InputFileName = 'custlist.html'
     PathTemplate = 'html'
-    UserLoggedIn = True
     Left = 128
     Top = 243
   end
@@ -68,14 +67,6 @@ object webCustListBasic: TwebCustListBasic
     PathTemplate = 'html'
     Left = 131
     Top = 304
-  end
-  object WebSessionMgr: TWebSessionManager
-    OnIdGenerate = WebSessionMgrIdGenerate
-    OnValidate = WebSessionMgrValidate
-    OnCreated = WebSessionMgrCreated
-    OnAcquire = WebSessionMgrAcquire
-    Left = 331
-    Top = 75
   end
   object WebBasicAuthenticator: TWebBasicAuthenticator
     Realm = 'Customer Access'
@@ -93,10 +84,13 @@ object webCustListBasic: TwebCustListBasic
       end
       item
         PathInfo = '/unauthorized'
-        Kind = zkIgnore
+        Kind = zkFree
+      end
+      item
+        PathInfo = '/custlist'
+        Roles = 'viewer'
       end>
-    OnAuthorize = BasicWebAuthorizerAuthorize
-    Left = 336
-    Top = 240
+    Left = 328
+    Top = 216
   end
 end
