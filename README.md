@@ -79,4 +79,4 @@ The project contains a unit, `uLogging.pas`, for providing simple logging to pro
 
 ## Blog
 
-Read my ["First Look at WebBroker's Session Management"]([https://corneliusconcepts.tech/introducing-webstencils](https://corneliusconcepts.tech/first-look-webbrokers-session-management)) blog to learn more about this new session management for the old WebBroker technology!
+Read my [First Look at WebBroker's Session Management](https://corneliusconcepts.tech/first-look-webbrokers-session-management) blog to learn more about this new session management for the old WebBroker technology!
