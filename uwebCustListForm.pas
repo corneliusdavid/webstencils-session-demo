@@ -188,21 +188,15 @@ end;
 procedure TwebCustListWebStencil.webCustListWebStencilwaLogoutAction(
   Sender: TObject; Request: TWebRequest; Response: TWebResponse;
   var Handled: Boolean);
-var
-  LSession: TWebSession;
 begin
-  if Assigned(Request) then
-    LSession := Request.Session;
-
-  if Assigned(LSession) then
-    LSession.Login(nil);
-
+  // clear our our local variables
   FFullName := EmptyStr;
   FUserTitle := EmptyStr;
   FHighestUserRole := EmptyStr;
-
   FIsHome := True;
-  Response.SendRedirect('/');
+
+  // let WebBroker finish handling logout
+  Handled := False;
 end;
 
 end.

@@ -1,11 +1,14 @@
 @LayoutPage custlistframework1.html
 @import custlist-style.html
-@LoginRequired
+@LoginRequired(viewer)
 
 <h2>Customers</h2>
-<div class="col-sm-12">
 
-<p>Logged in as: <strong>@app.FullName [@app.UserTitle]</strong> (Roles: @session.UserRoles) | <a href="/logout">Logout</a></p>
+<div class="d-flex justify-content-between align-items-center">
+  <span>Logged in as: <strong>@app.FullName [@app.UserTitle]</strong> (Roles: @session.UserRoles)</span>
+  <button type="submit" name="logout" value="logout" class="btn btn-sm" onclick="this.form.submit()" form="logoutForm">Logout</button>
+</div>
+<form id="logoutForm" action="/logout" method="post" class="d-none"></form>
 
 <table class="customer-table">
   <caption>All Customers</caption>
@@ -21,9 +24,9 @@
     @foreach CustList {
       <tr>
         <td class="id-cell">
-            @if (session.UserHasRole('editor')) { <a href="/custedit?cust_no=@loop.CustomerId"> }
+            @if (session.UserHasRole("editor")) { <a href="/custedit?cust_no=@loop.CustomerId"> }
                 @loop.CustomerId
-            @if (session.UserHasRole('editor')) { </a> }
+            @if (session.UserHasRole("editor")) { </a> }
         </td>
         <td @if loop.IsBusiness { class="company_row" }>@loop.FirstName</td>
         <td @if loop.IsBusiness { class="company_row" }>@loop.LastName</td>

@@ -1,5 +1,5 @@
 @LayoutPage custlistframework1.html
-@LoginRequired
+@LoginRequired(editor)
 
 @if (session.UserHasRole('editor')) {
         <h1>Edit Customer Information</h1>

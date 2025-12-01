@@ -43,12 +43,11 @@ object webCustListWebStencil: TwebCustListWebStencil
       Producer = wspLoginFailed
     end
     item
-      MethodType = mtGet
+      MethodType = mtPost
       Name = 'waLogout'
       PathInfo = '/logout'
       OnAction = webCustListWebStencilwaLogoutAction
     end>
-  AfterDispatch = webCustListWebStencilwaEditCustomerAction
   Height = 495
   Width = 455
   object wspIndex: TWebStencilsProcessor
