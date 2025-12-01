@@ -79,4 +79,4 @@ The project contains a unit, `uLogging.pas`, for providing simple logging to pro
 
 ## Blog
 
-Read my ["Introducing WebStencils"](https://corneliusconcepts.tech/introducing-webstencils) blog to learn more about the technology behind these programs and why WebStencils is cool!
+Read my ["First Look at WebBroker's Session Management"]([https://corneliusconcepts.tech/introducing-webstencils](https://corneliusconcepts.tech/first-look-webbrokers-session-management)) blog to learn more about this new session management for the old WebBroker technology!
