@@ -48,14 +48,15 @@ object webCustListWebStencil: TwebCustListWebStencil
       PathInfo = '/logout'
       OnAction = webCustListWebStencilwaLogoutAction
     end>
-  Height = 407
+  AfterDispatch = webCustListWebStencilwaEditCustomerAction
+  Height = 495
   Width = 455
   object wspIndex: TWebStencilsProcessor
     Engine = wsEngineCustList
     InputFileName = 'index.html'
     PathTemplate = 'html'
-    Left = 104
-    Top = 104
+    Left = 72
+    Top = 72
   end
   object wsEngineCustList: TWebStencilsEngine
     PathTemplates = <>
@@ -68,28 +69,31 @@ object webCustListWebStencil: TwebCustListWebStencil
     Engine = wsEngineCustList
     InputFileName = 'loginfailed.html'
     PathTemplate = 'html'
-    Left = 99
-    Top = 243
+    Left = 83
+    Top = 195
   end
   object wspCustList: TWebStencilsProcessor
     Engine = wsEngineCustList
     InputFileName = 'custlist.html'
     PathTemplate = 'html'
-    Left = 208
-    Top = 219
+    UserRoles = 'viewer,editor,manager'
+    Left = 160
+    Top = 259
   end
   object wspCustEdit: TWebStencilsProcessor
     Engine = wsEngineCustList
     InputFileName = 'custedit.html'
-    Left = 203
-    Top = 272
+    PathTemplate = 'html'
+    UserRoles = 'editor,manager'
+    Left = 163
+    Top = 320
   end
   object wspLogin: TWebStencilsProcessor
     Engine = wsEngineCustList
     InputFileName = 'loginform.html'
     PathTemplate = 'html'
-    Left = 109
-    Top = 163
+    Left = 77
+    Top = 131
   end
   object WebSessionMgr: TWebSessionManager
     OnIdGenerate = WebSessionMgrIdGenerate

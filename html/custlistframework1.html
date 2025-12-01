@@ -17,11 +17,11 @@
 
   <div class="row">
     <div class="col-md-12">
-      @if App.IsHome
-        {<h2 class="text-center text-primary">@App.Title</h2>}
+      @if app.IsHome
+        {<h2 class="text-center text-primary">@app.Title</h2>}
       @else
-        {<h4 class="text-center text-primary">@App.Title</h4>}
-      <h5 class="text-center text-primary">Version @App.Version</h5>
+        {<h4 class="text-center text-primary">@app.Title</h4>}
+      <h5 class="text-center text-primary">Version @app.Version</h5>
     </div>
   </div>
 
@@ -32,6 +32,10 @@
   </div>
 
 <div><p>&nbsp;</p></div>
+
+@Import session_include.html
+@Import request_include.html
+
 <div class="text-secondary"><em>Customer Manager for WebStencils</em></div>
 
 </body>

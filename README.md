@@ -2,7 +2,7 @@
 
 WebStencils is a scripting technology, introduced with Delphi 12.2; with Delphi 13, Session Management has been added to the underlying technology making interactive web sites built with Delphi feasible without a lot of work or third-party components.
 
-The previous iteration of this demo, [WebStencils Demo](https://github.com/corneliusdavid/webstencils-demo), compared the old WebBroker-style tag replacement with the newer WebStencils scripting and replacement syntax but it did not use any session management for user authentication; therefore, if you logged in on one browser, then opened a different browser to the same address and port, it was already logged in! In other words, user state was maintained at the server and shared with all connected sessions. Obviously, this was for demonstration purposes only and would implemented in a public website.
+The previous iteration of this demo, [WebStencils Demo](https://github.com/corneliusdavid/webstencils-demo), compared the old WebBroker-style tag replacement with the newer WebStencils scripting and replacement syntax but it did not use any session management for user authentication; therefore, if you logged in on one browser, then opened a different browser to the same address and port, it was already logged in! In other words, user state was maintained at the server and shared with all connected sessions. Obviously, this was for demonstration purposes only and would never be implemented in a public website.
 
 This repository expands the `CustListWebStencils` demo project and adds proper session management to isolate user authentication to a single browser on a single computer.
 
@@ -12,33 +12,35 @@ The web application is run as Windows VCL program with the HTML files in a sub-f
 
 There are five pages in the application:
 
-1. Index (presents a login page)
+1. Index
+2. Login page
 2. Login Error
 3. Customer List (lists customers in a table)
 4. Customer Edit (presents an edit page for the selected customer)
-5. An error page (for preventing unauthorized access)
 
 **WebStencils template HTML files:**
 
-- `index.html`
-- `custlist.html`
-- `custedit.html`
-- `loginfailed.html`
-- `custlistframework1.html`
+- `custlistframework1.html` - template used in all pages
+- `session_include.html` - include file to show session information
+- `request_include.html` - include file to show request inforamtion
+- `index.html` - starting page
+- `loginform.html` - form for requesting username and password
+- `loginfailed.html` - error page for invalid login
+- `custlist.html` - table of customers
+- `custlist-style.html` - styles for the customer table
+- `custedit.html` - the customer edit form
 
 ## Building the Project
 
-WebStencils was introduced in Delphi 12.2 and Session Management (the focus of this repository) was introduced in Delphi 13 which is, therefore, required to build this project.
+WebStencils was introduced in Delphi 12.2 and Session Management (the focus of this repository) was introduced in Delphi 13 which is, therefore, required to build this project. It was built with Delphi Enterprise but should be able to be compiled with the Professional Edition without any problem. No third-party components are necessary.
 
 The [Chinook SQLite database](https://github.com/lerocha/chinook-database) is a popular database used for tutorials and demos and can be found in many places on the internet; it is included here for convenience. The Delphi code configures the database path to point to the current project folder so you should be able to simply compile and run.
 
-No third-party components are necessary.
-
 ## Running the demo
 
-The demo Delphi project, `CustListSessionedWebStencils`, is created as a Web Server Windows GUI program, meaning it runs as a small Windows VCL program that opens a port to listen for web requests with a button to launch your default web browser; the default port is 8080.
+The demo Delphi project, `CustListFormsSessions`, is created as a Web Server Windows GUI program, meaning it runs as a small Windows VCL program that opens a port to listen for web requests with a button to launch your default web browser; the default port is 8080.
 
-The first page listed is a login page. A valid login must be entered before it will take you to the customer list. A valid login is any user in the `Employees` table where:
+A valid login must be entered before it will take you to the customer list. A valid login is any user in the `Employees` table where:
 
 - **Username** is the `FirstName`, case-insensitive;
 - **Password** is a concatenation of the `EmployeeId` and the `LastName`, case-*sensitive*.
@@ -64,18 +66,17 @@ To illustrate both conditional HTML scripting with WebStencils and WebBroker's n
 - else if the `Title` field contains the word "IT", the user role is EDITOR;
 - else the user role is VIEWER (no editing allowed).
 
-Once logged in, the background for a MGR will change to red. Both a MGR and an EDITOR will see a link under each customer's ID (left-most column) that takes them to an "edit" screen. A VIEWER will not be able to see customer details.
+The background changes color depending on the current user role. Both a MANAGER and an EDITOR will see a link under each customer's ID (left-most column) that takes them to an "edit" screen. A VIEWER will not be able to see customer details.
 
 In the included sample database, the following user credentials are examples of each of these:
 - `STEVE`/`5Johnson` - VIEWER
 - `ROBERT`/`7King` - EDITOR
-- `ANDREW`/`1Adams` - MGR
+- `ANDREW`/`1Adams` - MANAGER
 
 ### Logging
 
-The project contains a unit, `uLogging.pas`, for providing simple logging to provide visibility on when various events fire. The log files are created in the user's `ProgramData` folder.
+The project contains a unit, `uLogging.pas`, for providing simple logging to provide visibility on when various events fire. The log files are created in the same folder as the running application.
 
 ## Blog
 
 Read my ["Introducing WebStencils"](https://corneliusconcepts.tech/introducing-webstencils) blog to learn more about the technology behind these programs and why WebStencils is cool!
-

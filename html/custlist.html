@@ -1,10 +1,11 @@
 @LayoutPage custlistframework1.html
 @import custlist-style.html
+@LoginRequired
 
 <h2>Customers</h2>
-<div class="col-sm-10">
+<div class="col-sm-12">
 
-<p>Logged in as: <strong>@App.FullName [@App.UserTitle]</strong></p>
+<p>Logged in as: <strong>@app.FullName [@app.UserTitle]</strong> (Roles: @session.UserRoles) | <a href="/logout">Logout</a></p>
 
 <table class="customer-table">
   <caption>All Customers</caption>
@@ -20,9 +21,9 @@
     @foreach CustList {
       <tr>
         <td class="id-cell">
-            @if App.CanEdit { <a href="\custedit?cust_no=@loop.CustomerId"> }
+            @if (session.UserHasRole('editor')) { <a href="/custedit?cust_no=@loop.CustomerId"> }
                 @loop.CustomerId
-            @if App.CanEdit { </a> }
+            @if (session.UserHasRole('editor')) { </a> }
         </td>
         <td @if loop.IsBusiness { class="company_row" }>@loop.FirstName</td>
         <td @if loop.IsBusiness { class="company_row" }>@loop.LastName</td>
@@ -33,4 +34,4 @@
 </table>
 </div>
 
-<p><a href="/logout"><strong>Logout</strong></a></p>
+

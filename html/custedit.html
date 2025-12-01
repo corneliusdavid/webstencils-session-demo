@@ -1,6 +1,7 @@
 @LayoutPage custlistframework1.html
 @LoginRequired
 
+@if (session.UserHasRole('editor')) {
         <h1>Edit Customer Information</h1>
         <form id="customerForm">
             <div class="form-group">
@@ -42,4 +43,7 @@
 
             <button type="submit">Submit</button>
         </form>
-
+}
+@else {
+  <p><em>Access denied to customer details.</em></p>
+}

@@ -36,12 +36,11 @@ type
         TWebRequest; var Session: TWebSession; var Status: TWebSessionStatus);
   private
     // these are NOT accessible by the WebStencilsEngine
+    FTitle: string;
+    FVersion: string;
     FFullName: string;
     FUserTitle: string;
-    FVersion: string;
-    FTitle: string;
-    FCanEdit: Boolean;
-    FIsMgr: Boolean;
+    FHighestUserRole: string;
     FIsHome: Boolean;
     FUsesFormLogin: Boolean;
   public
@@ -50,8 +49,7 @@ type
     property Version: string read FVersion;
     property FullName: string read FFullName;
     property UserTitle: string read FUserTitle;
-    property CanEdit: Boolean read FCanEdit write FCanEdit;
-    property IsMgr: Boolean read FIsMgr write FIsMgr;
+    property HighestUserRole: string read FHighestUserRole write FHighestUserRole;
     property IsHome: Boolean read FIsHome;
     property UsesFormLogin: Boolean read FUsesFormLogin;
   end;
@@ -137,16 +135,26 @@ procedure TwebCustListWebStencil.WebFormsAuthenticatorAuthenticate(
 begin
   FFullName := EmptyStr;
   FUserTitle := EmptyStr;
+  Roles := EmptyStr;
+  FHighestUserRole := EmptyStr;
 
   Success := dmCust.LoginCheck(Username, Password);
   if Success then begin
     FFullName := dmCust.EmployeeFirstName + ' ' + dmCust.EmployeeLastName;
     FUserTitle := dmCust.EmployeeTitle;
-    FIsMgr := Pos('MANAGER', UpperCase(FUserTitle)) > 0;
-    FCanEdit := FIsMgr or (Pos('IT', UpperCase(FUserTitle)) > 0);
-    FIsHome := False;
+    if Pos('MANAGER', UpperCase(FUserTitle)) > 0 then begin
+      Roles := 'manager,editor,viewer';
+      FHighestUserRole := 'manager';
+    end
+    else if (Pos('IT', UpperCase(FUserTitle)) > 0) then begin
+      Roles := 'editor,viewer';
+      FHighestUserRole := 'editor';
+    end else begin
+      Roles := 'viewer';
+      FHighestUserRole := 'viewer';
+    end;
 
-    //Roles := if FIsMgr then 'mgr' else if FCanEdit then 'IT' else EmptyStr;
+    FIsHome := False;
   end;
 end;
 
@@ -191,8 +199,7 @@ begin
 
   FFullName := EmptyStr;
   FUserTitle := EmptyStr;
-  FCanEdit := False;
-  FIsMgr := False;
+  FHighestUserRole := EmptyStr;
 
   FIsHome := True;
   Response.SendRedirect('/');

@@ -3,11 +3,19 @@ body {
     line-height: 1.6;
     margin: 0;
     padding: 20px;
-    @if App.IsMgr {
-      background-color: #ff5555;
-    }
-    @else {
-      background-color: #f4f4f4;
+    @switch (app.HighestUserRole) {
+      @case "manager" {
+        background-color: #ff5555;
+      }
+      @case "editor" {
+        background-color: #5555f4;
+      }
+      @case "viewer" {
+        background-color: #55f455;
+      }
+      @default {
+        background-color: #222222;
+      }
     }
 }
 .container {
