@@ -1,29 +1,31 @@
 object dmCust: TdmCust
   OnCreate = DataModuleCreate
-  Height = 321
-  Width = 442
+  Height = 683
+  Width = 911
+  PixelsPerInch = 168
   object FDConnChinook: TFDConnection
     Params.Strings = (
-      'Database=V:\WebStencilsSessionDemo\chinook.db'
-      'DriverID=SQLite')
+      'ConnectionDef=WebStencils Session Demo')
     ConnectedStoredUsage = [auDesignTime]
+    Connected = True
     LoginPrompt = False
-    Left = 136
-    Top = 104
+    Left = 238
+    Top = 182
   end
   object FDPhysSQLiteDriverLink1: TFDPhysSQLiteDriverLink
-    Left = 144
-    Top = 176
+    Left = 252
+    Top = 308
   end
   object qryUserVerify: TFDQuery
+    ActiveStoredUsage = [auDesignTime]
     Connection = FDConnChinook
     SQL.Strings = (
       'SELECT FirstName, LastName, Title, EmployeeID'
-      'FROM Employees'
+      'FROM Employee'
       'WHERE Upper(FirstName) = Upper(:FName)'
       '  AND :Password = EmployeeId || LastName;')
-    Left = 240
-    Top = 56
+    Left = 420
+    Top = 98
     ParamData = <
       item
         Name = 'FNAME'
@@ -60,11 +62,13 @@ object dmCust: TdmCust
     end
   end
   object qryCustCount: TFDQuery
+    ActiveStoredUsage = [auDesignTime]
+    Active = True
     Connection = FDConnChinook
     SQL.Strings = (
-      'select count(1) as CustCount from customers')
-    Left = 256
-    Top = 216
+      'select count(1) as CustCount from customer')
+    Left = 448
+    Top = 378
     object qryCustCountCustCount: TLargeintField
       AutoGenerateValue = arDefault
       FieldName = 'CustCount'
@@ -74,23 +78,24 @@ object dmCust: TdmCust
     end
   end
   object qryCustomers: TFDQuery
+    Active = True
     OnCalcFields = qryCustomersCalcFields
     Connection = FDConnChinook
     SQL.Strings = (
       'SELECT c.CustomerId, c.FirstName, c.LastName, c.Company, '
       '  COUNT(i.InvoiceId) AS InvCount, SUM(i.Total) AS TotalInvoices'
-      'FROM customers c'
-      'JOIN invoices i ON c.CustomerId = i.CustomerId '
+      'FROM customer c'
+      'JOIN invoice i ON c.CustomerId = i.CustomerId '
       'GROUP BY c.CustomerId '
       'ORDER BY c.LastName'
       ' ')
-    Left = 256
-    Top = 136
-    object qryCustomersCustomerId: TFDAutoIncField
+    Left = 448
+    Top = 238
+    object qryCustomersCustomerId: TIntegerField
       FieldName = 'CustomerId'
       Origin = 'CustomerId'
-      ProviderFlags = [pfInWhere, pfInKey]
-      ReadOnly = False
+      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
+      Required = True
     end
     object qryCustomersFirstName: TWideStringField
       FieldName = 'FirstName'
@@ -129,14 +134,16 @@ object dmCust: TdmCust
     end
   end
   object qryCustDetails: TFDQuery
+    ActiveStoredUsage = [auDesignTime]
+    Active = True
     Connection = FDConnChinook
     SQL.Strings = (
       'SELECT CustomerId, FirstName, LastName, Company,'
       '  Address, City, [State], Country, PostalCode, Phone, Email'
-      'FROM Customers'
+      'FROM Customer'
       'WHERE CustomerId = :CustID')
-    Left = 328
-    Top = 160
+    Left = 574
+    Top = 280
     ParamData = <
       item
         Name = 'CUSTID'
@@ -144,11 +151,11 @@ object dmCust: TdmCust
         ParamType = ptInput
         Value = 3
       end>
-    object qryCustDetailsCustomerId: TFDAutoIncField
+    object qryCustDetailsCustomerId: TIntegerField
       FieldName = 'CustomerId'
       Origin = 'CustomerId'
-      ProviderFlags = [pfInWhere, pfInKey]
-      ReadOnly = False
+      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
+      Required = True
     end
     object qryCustDetailsFirstName: TWideStringField
       FieldName = 'FirstName'

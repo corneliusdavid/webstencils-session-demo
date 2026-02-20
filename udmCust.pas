@@ -18,14 +18,18 @@ type
     qryCustCount: TFDQuery;
     qryCustCountCustCount: TLargeintField;
     qryCustomers: TFDQuery;
-    qryCustomersCustomerId: TFDAutoIncField;
+    qryCustDetails: TFDQuery;
+    qryUserVerifyFirstName: TWideStringField;
+    qryUserVerifyLastName: TWideStringField;
+    qryUserVerifyTitle: TWideStringField;
+    qryUserVerifyEmployeeId: TFDAutoIncField;
+    qryCustomersCustomerId: TIntegerField;
     qryCustomersFirstName: TWideStringField;
     qryCustomersLastName: TWideStringField;
+    qryCustomersCompany: TWideStringField;
     qryCustomersInvCount: TLargeintField;
     qryCustomersTotalInvoices: TFloatField;
-    qryCustomersCompany: TWideStringField;
-    qryCustDetails: TFDQuery;
-    qryCustDetailsCustomerId: TFDAutoIncField;
+    qryCustDetailsCustomerId: TIntegerField;
     qryCustDetailsFirstName: TWideStringField;
     qryCustDetailsLastName: TWideStringField;
     qryCustDetailsCompany: TWideStringField;
@@ -37,10 +41,6 @@ type
     qryCustDetailsPhone: TWideStringField;
     qryCustDetailsEmail: TWideStringField;
     qryCustomersIsBusiness: TBooleanField;
-    qryUserVerifyFirstName: TWideStringField;
-    qryUserVerifyLastName: TWideStringField;
-    qryUserVerifyTitle: TWideStringField;
-    qryUserVerifyEmployeeId: TFDAutoIncField;
     procedure qryCustomersCalcFields(DataSet: TDataSet);
     procedure DataModuleCreate(Sender: TObject);
   private

@@ -48,57 +48,58 @@ object webCustListWebStencil: TwebCustListWebStencil
       PathInfo = '/logout'
       OnAction = webCustListWebStencilwaLogoutAction
     end>
-  Height = 495
-  Width = 455
+  Height = 866
+  Width = 796
+  PixelsPerInch = 168
   object wspIndex: TWebStencilsProcessor
     Engine = wsEngineCustList
     InputFileName = 'index.html'
     PathTemplate = 'html'
-    Left = 72
-    Top = 72
+    Left = 126
+    Top = 126
   end
   object wsEngineCustList: TWebStencilsEngine
     PathTemplates = <>
     RootDirectory = '/html'
     OnError = wsEngineCustListError
-    Left = 256
-    Top = 32
+    Left = 448
+    Top = 56
   end
   object wspLoginFailed: TWebStencilsProcessor
     Engine = wsEngineCustList
     InputFileName = 'loginfailed.html'
     PathTemplate = 'html'
-    Left = 83
-    Top = 195
+    Left = 145
+    Top = 341
   end
   object wspCustList: TWebStencilsProcessor
     Engine = wsEngineCustList
     InputFileName = 'custlist.html'
     PathTemplate = 'html'
     UserRoles = 'viewer,editor,manager'
-    Left = 160
-    Top = 259
+    Left = 280
+    Top = 453
   end
   object wspCustEdit: TWebStencilsProcessor
     Engine = wsEngineCustList
     InputFileName = 'custedit.html'
     PathTemplate = 'html'
     UserRoles = 'editor,manager'
-    Left = 163
-    Top = 320
+    Left = 285
+    Top = 560
   end
   object wspLogin: TWebStencilsProcessor
     Engine = wsEngineCustList
     InputFileName = 'loginform.html'
     PathTemplate = 'html'
-    Left = 77
-    Top = 131
+    Left = 135
+    Top = 229
   end
   object WebSessionMgr: TWebSessionManager
     OnIdGenerate = WebSessionMgrIdGenerate
     OnValidate = WebSessionMgrValidate
-    Left = 331
-    Top = 75
+    Left = 579
+    Top = 131
   end
   object WebFormsAuthenticator: TWebFormsAuthenticator
     LoginURL = '/login'
@@ -106,7 +107,7 @@ object webCustListWebStencil: TwebCustListWebStencil
     HomeURL = '/custlist'
     LogoutURL = '/'
     OnAuthenticate = WebFormsAuthenticatorAuthenticate
-    Left = 336
-    Top = 149
+    Left = 588
+    Top = 261
   end
 end
