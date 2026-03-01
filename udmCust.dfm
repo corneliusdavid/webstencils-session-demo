@@ -1,20 +1,19 @@
 object dmCust: TdmCust
   OnCreate = DataModuleCreate
-  Height = 683
-  Width = 911
-  PixelsPerInch = 168
+  Height = 342
+  Width = 472
   object FDConnChinook: TFDConnection
     Params.Strings = (
-      'ConnectionDef=WebStencils Session Demo')
+      'Database=V:\WebStencilsSessionDemo\chinook.db'
+      'DriverID=SQLite')
     ConnectedStoredUsage = [auDesignTime]
-    Connected = True
     LoginPrompt = False
-    Left = 238
-    Top = 182
+    Left = 136
+    Top = 104
   end
   object FDPhysSQLiteDriverLink1: TFDPhysSQLiteDriverLink
-    Left = 252
-    Top = 308
+    Left = 144
+    Top = 176
   end
   object qryUserVerify: TFDQuery
     ActiveStoredUsage = [auDesignTime]
@@ -24,8 +23,8 @@ object dmCust: TdmCust
       'FROM Employee'
       'WHERE Upper(FirstName) = Upper(:FName)'
       '  AND :Password = EmployeeId || LastName;')
-    Left = 420
-    Top = 98
+    Left = 240
+    Top = 56
     ParamData = <
       item
         Name = 'FNAME'
@@ -63,12 +62,11 @@ object dmCust: TdmCust
   end
   object qryCustCount: TFDQuery
     ActiveStoredUsage = [auDesignTime]
-    Active = True
     Connection = FDConnChinook
     SQL.Strings = (
       'select count(1) as CustCount from customer')
-    Left = 448
-    Top = 378
+    Left = 256
+    Top = 216
     object qryCustCountCustCount: TLargeintField
       AutoGenerateValue = arDefault
       FieldName = 'CustCount'
@@ -78,7 +76,6 @@ object dmCust: TdmCust
     end
   end
   object qryCustomers: TFDQuery
-    Active = True
     OnCalcFields = qryCustomersCalcFields
     Connection = FDConnChinook
     SQL.Strings = (
@@ -89,8 +86,8 @@ object dmCust: TdmCust
       'GROUP BY c.CustomerId '
       'ORDER BY c.LastName'
       ' ')
-    Left = 448
-    Top = 238
+    Left = 256
+    Top = 136
     object qryCustomersCustomerId: TIntegerField
       FieldName = 'CustomerId'
       Origin = 'CustomerId'
@@ -135,15 +132,14 @@ object dmCust: TdmCust
   end
   object qryCustDetails: TFDQuery
     ActiveStoredUsage = [auDesignTime]
-    Active = True
     Connection = FDConnChinook
     SQL.Strings = (
       'SELECT CustomerId, FirstName, LastName, Company,'
       '  Address, City, [State], Country, PostalCode, Phone, Email'
       'FROM Customer'
       'WHERE CustomerId = :CustID')
-    Left = 574
-    Top = 280
+    Left = 328
+    Top = 160
     ParamData = <
       item
         Name = 'CUSTID'
