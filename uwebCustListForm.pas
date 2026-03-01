@@ -28,12 +28,11 @@ type
     procedure WebFormsAuthenticatorAuthenticate(
       Sender: TCustomWebAuthenticator; Request: TWebRequest; const UserName,
       Password: string; var Roles: string; var Success: Boolean);
-    procedure webCustListWebStencilwaLogoutAction(Sender: TObject;
-      Request: TWebRequest; Response: TWebResponse; var Handled: Boolean);
     procedure WebSessionMgrIdGenerate(Sender: TCustomWebSessionManager; Request:
         TWebRequest; const User: IWebUser; var SessionId: string);
     procedure WebSessionMgrValidate(Sender: TCustomWebSessionManager; Request:
         TWebRequest; var Session: TWebSession; var Status: TWebSessionStatus);
+    procedure wspLoginBeforeProduce(Sender: TObject);
   private
     // these are NOT accessible by the WebStencilsEngine
     FTitle: string;
@@ -184,18 +183,13 @@ begin
   WebLogger.Add('WebEngine ERROR: ' + AMessage);
 end;
 
-procedure TwebCustListWebStencil.webCustListWebStencilwaLogoutAction(
-  Sender: TObject; Request: TWebRequest; Response: TWebResponse;
-  var Handled: Boolean);
+procedure TwebCustListWebStencil.wspLoginBeforeProduce(Sender: TObject);
 begin
   // clear our our local variables
   FFullName := EmptyStr;
   FUserTitle := EmptyStr;
   FHighestUserRole := EmptyStr;
   FIsHome := True;
-
-  // let WebBroker finish handling logout
-  Handled := False;
 end;
 
 end.

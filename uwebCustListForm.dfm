@@ -46,7 +46,6 @@ object webCustListWebStencil: TwebCustListWebStencil
       MethodType = mtPost
       Name = 'waLogout'
       PathInfo = '/logout'
-      OnAction = webCustListWebStencilwaLogoutAction
     end>
   Height = 495
   Width = 455
@@ -86,6 +85,7 @@ object webCustListWebStencil: TwebCustListWebStencil
   object wspLogin: TWebStencilsProcessor
     Engine = wsEngineCustList
     InputFileName = 'html/loginform.html'
+    BeforeProduce = wspLoginBeforeProduce
     Left = 77
     Top = 131
   end
@@ -99,6 +99,7 @@ object webCustListWebStencil: TwebCustListWebStencil
     LoginURL = '/login'
     FailedURL = '/invalid_user'
     HomeURL = '/custlist'
+    LogoutURL = '/logout'
     OnAuthenticate = WebFormsAuthenticatorAuthenticate
     Left = 336
     Top = 149
