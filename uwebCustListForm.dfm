@@ -48,66 +48,59 @@ object webCustListWebStencil: TwebCustListWebStencil
       PathInfo = '/logout'
       OnAction = webCustListWebStencilwaLogoutAction
     end>
-  Height = 866
-  Width = 796
-  PixelsPerInch = 168
+  Height = 495
+  Width = 455
   object wspIndex: TWebStencilsProcessor
     Engine = wsEngineCustList
-    InputFileName = 'index.html'
-    PathTemplate = 'html'
-    Left = 126
-    Top = 126
+    InputFileName = 'html/index.html'
+    Left = 72
+    Top = 72
   end
   object wsEngineCustList: TWebStencilsEngine
     PathTemplates = <>
     RootDirectory = '/html'
     OnError = wsEngineCustListError
-    Left = 448
-    Top = 56
+    Left = 256
+    Top = 32
   end
   object wspLoginFailed: TWebStencilsProcessor
     Engine = wsEngineCustList
-    InputFileName = 'loginfailed.html'
-    PathTemplate = 'html'
-    Left = 145
-    Top = 341
+    InputFileName = 'html/loginfailed.html'
+    Left = 83
+    Top = 195
   end
   object wspCustList: TWebStencilsProcessor
     Engine = wsEngineCustList
-    InputFileName = 'custlist.html'
-    PathTemplate = 'html'
+    InputFileName = 'html/custlist.html'
     UserRoles = 'viewer,editor,manager'
-    Left = 280
-    Top = 453
+    Left = 160
+    Top = 259
   end
   object wspCustEdit: TWebStencilsProcessor
     Engine = wsEngineCustList
-    InputFileName = 'custedit.html'
-    PathTemplate = 'html'
+    InputFileName = 'html/custedit.html'
     UserRoles = 'editor,manager'
-    Left = 285
-    Top = 560
+    Left = 163
+    Top = 320
   end
   object wspLogin: TWebStencilsProcessor
     Engine = wsEngineCustList
-    InputFileName = 'loginform.html'
-    PathTemplate = 'html'
-    Left = 135
-    Top = 229
+    InputFileName = 'html/loginform.html'
+    Left = 77
+    Top = 131
   end
   object WebSessionMgr: TWebSessionManager
     OnIdGenerate = WebSessionMgrIdGenerate
     OnValidate = WebSessionMgrValidate
-    Left = 579
-    Top = 131
+    Left = 331
+    Top = 75
   end
   object WebFormsAuthenticator: TWebFormsAuthenticator
     LoginURL = '/login'
     FailedURL = '/invalid_user'
     HomeURL = '/custlist'
-    LogoutURL = '/'
     OnAuthenticate = WebFormsAuthenticatorAuthenticate
-    Left = 588
-    Top = 261
+    Left = 336
+    Top = 149
   end
 end

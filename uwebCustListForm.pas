@@ -71,19 +71,18 @@ procedure TwebCustListWebStencil.WebModuleCreate(Sender: TObject);
 begin
   // web app vars
   FTitle := 'Customer List for WebStencils with Session Management';
-  FVersion := '0.7';
+  FVersion := '1.0';
   FIsHome := True;
   FUsesFormLogin := True;
 
   wsEngineCustList.AddVar('App', Self, False);
 
-  // html paths
+  {$IFDEF MSWINDOWS}
+  // root folder for web templates is 'html' off the executable folder
   wsEngineCustList.RootDirectory := TPath.Combine(ExtractFilePath(ParamStr(0)), 'html');
-  for var i := 0 to ComponentCount - 1 do begin
-    if Components[i] is TWebStencilsProcessor then
-      TWebStencilsProcessor(Components[i]).InputFileName := TPath.Combine(
-        wsEngineCustList.RootDirectory, TWebStencilsProcessor(Components[i]).InputFileName);
-  end;
+  {$ELSE}
+  {$MESSAGE FATAL 'This demo app was designed for Windows only'}
+  {$ENDIF}
 end;
 
 procedure TwebCustListWebStencil.webCustListWebStencilwaListCustomersAction(Sender: TObject; Request: TWebRequest;
