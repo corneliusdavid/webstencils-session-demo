@@ -49,6 +49,7 @@ type
     FEmpTitle: string;
     FEmpRole: TEmployeeRole;
   public
+    procedure ConnectDB(const RootPath: string = '');
     function LoginCheck(const Username, Password: string): Boolean;
     procedure ClearLogin;
     function CustCount: Integer;
@@ -84,7 +85,14 @@ end;
 procedure TdmCust.DataModuleCreate(Sender: TObject);
 begin
   ClearLogin;
-  FDConnChinook.Params.Database := TPath.Combine(ExtractFilePath(ParamStr(0)), 'chinook.db');
+end;
+
+procedure TdmCust.ConnectDB(const RootPath: string);
+begin
+  if RootPath.IsEmpty then
+    FDConnChinook.Params.Database := TPath.Combine(ExtractFilePath(ParamStr(0)), 'chinook.db')
+  else
+    FDConnChinook.Params.Database := TPath.Combine(RootPath, 'chinook.db');
 end;
 
 procedure TdmCust.ClearLogin;

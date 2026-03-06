@@ -79,6 +79,7 @@ begin
   {$IFDEF MSWINDOWS}
   // root folder for web templates is 'html' off the executable folder
   wsEngineCustList.RootDirectory := TPath.Combine(ExtractFilePath(ParamStr(0)), 'html');
+  dmCust.ConnectDB(ExtractFilePath(ParamStr(0)));
   {$ELSE}
   {$MESSAGE FATAL 'This demo app was designed for Windows only'}
   {$ENDIF}

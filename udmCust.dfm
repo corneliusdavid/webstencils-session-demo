@@ -7,6 +7,7 @@ object dmCust: TdmCust
       'Database=V:\WebStencilsSessionDemo\chinook.db'
       'DriverID=SQLite')
     ConnectedStoredUsage = [auDesignTime]
+    Connected = True
     LoginPrompt = False
     Left = 136
     Top = 104
