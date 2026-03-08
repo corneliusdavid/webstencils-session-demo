@@ -1,31 +1,19 @@
 object webCustListWebStencil: TwebCustListWebStencil
   OnCreate = WebModuleCreate
-  Actions = <
-    item
-      MethodType = mtGet
-      Name = 'waListCustomers'
-      PathInfo = '/custlist'
-      OnAction = webCustListWebStencilwaListCustomersAction
-    end
-    item
-      MethodType = mtGet
-      Name = 'waEditCustomer'
-      PathInfo = '/custedit'
-      OnAction = webCustListWebStencilwaEditCustomerAction
-    end>
+  Actions = <>
   Height = 416
-  Width = 455
+  Width = 373
   object wsEngineCustList: TWebStencilsEngine
     Dispatcher = WebFileDispatcher
     PathTemplates = <>
     RootDirectory = '/html'
     OnError = wsEngineCustListError
-    Left = 256
-    Top = 32
+    Left = 112
+    Top = 40
   end
   object WebSessionMgr: TWebSessionManager
-    Left = 331
-    Top = 75
+    Left = 187
+    Top = 83
   end
   object WebFormsAuthenticator: TWebFormsAuthenticator
     LoginURL = '/login'
@@ -33,8 +21,8 @@ object webCustListWebStencil: TwebCustListWebStencil
     HomeURL = '/'
     LogoutURL = '/logout'
     OnAuthenticate = WebFormsAuthenticatorAuthenticate
-    Left = 336
-    Top = 149
+    Left = 192
+    Top = 157
   end
   object WebAuthorizer: TWebAuthorizer
     UnauthorizedURL = '/notallowed'
@@ -55,22 +43,8 @@ object webCustListWebStencil: TwebCustListWebStencil
         Roles = 'manager'
       end>
     OnAuthorize = WebAuthorizerAuthorize
-    Left = 336
-    Top = 224
-  end
-  object wspCustList: TWebStencilsProcessor
-    Engine = wsEngineCustList
-    InputFileName = 'html/custlist.html'
-    UserRoles = 'viewer,editor,manager'
-    Left = 96
-    Top = 211
-  end
-  object wspCustEdit: TWebStencilsProcessor
-    Engine = wsEngineCustList
-    InputFileName = 'html/custedit.html'
-    UserRoles = 'editor,manager'
-    Left = 99
-    Top = 278
+    Left = 192
+    Top = 232
   end
   object WebFileDispatcher: TWebFileDispatcher
     WebFileExtensions = <
@@ -94,6 +68,7 @@ object webCustListWebStencil: TwebCustListWebStencil
         MimeType = 'image/png'
         Extensions = 'png'
       end>
+    BeforeDispatch = WebFileDispatcherBeforeDispatch
     WebDirectories = <
       item
         DirectoryAction = dirInclude
@@ -106,7 +81,7 @@ object webCustListWebStencil: TwebCustListWebStencil
     RootDirectory = 'html'
     VirtualPath = '/'
     DefaultFile = 'index.html'
-    Left = 320
-    Top = 312
+    Left = 176
+    Top = 320
   end
 end

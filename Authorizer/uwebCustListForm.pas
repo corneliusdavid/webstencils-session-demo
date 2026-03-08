@@ -15,17 +15,13 @@ type
     WebSessionMgr: TWebSessionManager;
     WebFormsAuthenticator: TWebFormsAuthenticator;
     WebAuthorizer: TWebAuthorizer;
-    wspCustList: TWebStencilsProcessor;
-    wspCustEdit: TWebStencilsProcessor;
     WebFileDispatcher: TWebFileDispatcher;
     procedure WebModuleCreate(Sender: TObject);
-    procedure webCustListWebStencilwaListCustomersAction(Sender: TObject; Request: TWebRequest; Response: TWebResponse;
-      var Handled: Boolean);
-    procedure webCustListWebStencilwaEditCustomerAction(Sender: TObject; Request: TWebRequest; Response: TWebResponse;
-      var Handled: Boolean);
     procedure wsEngineCustListError(Sender: TObject; const AMessage: string);
     procedure WebAuthorizerAuthorize(Sender: TCustomWebAuthorizer; Request: TWebRequest;
                               const User: IWebUser; var Success: Boolean);
+    procedure WebFileDispatcherBeforeDispatch(Sender: TObject; const AFileName:
+        string; Request: TWebRequest; Response: TWebResponse; var Handled: Boolean);
     procedure WebFormsAuthenticatorAuthenticate(
       Sender: TCustomWebAuthenticator; Request: TWebRequest; const UserName,
       Password: string; var Roles: string; var Success: Boolean);
@@ -37,6 +33,8 @@ type
     FFullName: string;
     FUserTitle: string;
     FHighestUserRole: string;
+    procedure OpenCustomerList;
+    procedure EditCustomer(const CustParams: string);
   public
     // these will be available by the WebStencilsEngine parser
     property Title: string read FTitle;
@@ -58,6 +56,14 @@ implementation
 uses
   Dialogs, System.IOUtils, System.bindings.EvalProtocol, System.Bindings.Methods,
   udmCust, uLogging;
+
+procedure TwebCustListWebStencil.OpenCustomerList;
+begin
+  dmCust.qryCustomers.Close;
+  dmCust.qryCustomers.Open;
+  if not wsEngineCustList.HasVar('CustList') then
+    wsEngineCustList.AddVar('CustList', dmCust.qryCustomers, False);
+end;
 
 procedure TwebCustListWebStencil.WebAuthorizerAuthorize(Sender:
     TCustomWebAuthorizer; Request: TWebRequest; const User: IWebUser; var
@@ -100,33 +106,38 @@ begin
   {$ENDIF}
 end;
 
-procedure TwebCustListWebStencil.webCustListWebStencilwaListCustomersAction(Sender: TObject; Request: TWebRequest;
-  Response: TWebResponse; var Handled: Boolean);
-begin
-  dmCust.qryCustomers.Close;
-  dmCust.qryCustomers.Open;
-  if not wsEngineCustList.HasVar('CustList') then
-    wsEngineCustList.AddVar('CustList', dmCust.qryCustomers, False);
-  Response.Content := wspCustList.Content;
-end;
-
-procedure TwebCustListWebStencil.webCustListWebStencilwaEditCustomerAction(Sender: TObject; Request: TWebRequest;
-  Response: TWebResponse; var Handled: Boolean);
+procedure TwebCustListWebStencil.EditCustomer(const CustParams: string);
 var
+  ParamsList: TStringList;
   CustNo: string;
   CustNum: Integer;
 begin
-  if Request.QueryFields.Count > 0 then
-  begin
-    CustNo := Request.QueryFields.Values['cust_no'];
-    if TryStrToInt(CustNo, CustNum) then
+  ParamsList := TStringList.Create;
+  try
+    ParamsList.CommaText := CustParams;
+  finally
+    ParamsList.Free;
+    if ParamsList.Count > 0 then
     begin
-      dmCust.OpenCustDetails(CustNum);
-      if not wsEngineCustList.HasVar('CustDetails') then
-        wsEngineCustList.AddVar('CustDetails', dmCust.qryCustDetails, False);
-      Response.Content := wspCustEdit.Content;
+      CustNo := ParamsList.Values['cust_no'];
+      if TryStrToInt(CustNo, CustNum) then
+      begin
+        dmCust.OpenCustDetails(CustNum);
+        if not wsEngineCustList.HasVar('CustDetails') then
+          wsEngineCustList.AddVar('CustDetails', dmCust.qryCustDetails, False);
+      end;
     end;
   end;
+end;
+
+procedure TwebCustListWebStencil.WebFileDispatcherBeforeDispatch(Sender:
+    TObject; const AFileName: string; Request: TWebRequest; Response:
+    TWebResponse; var Handled: Boolean);
+begin
+  if SameText(Request.PathInfo, '/custlist') then
+    OpenCustomerList
+  else if Request.PathInfo.StartsWith('/custedit', True) then
+    EditCustomer(Request.QueryFields.ToString);
 end;
 
 procedure TwebCustListWebStencil.WebFormsAuthenticatorAuthenticate(
