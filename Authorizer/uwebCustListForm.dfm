@@ -42,7 +42,6 @@ object webCustListWebStencil: TwebCustListWebStencil
         PathInfo = '/emplist'
         Roles = 'manager'
       end>
-    OnAuthorize = WebAuthorizerAuthorize
     Left = 192
     Top = 232
   end
