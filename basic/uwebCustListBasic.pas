@@ -23,6 +23,8 @@ type
       Password: string; var Roles: string; var Success: Boolean);
     procedure WebFileDispatcherBeforeDispatch(Sender: TObject; const AFileName:
         string; Request: TWebRequest; Response: TWebResponse; var Handled: Boolean);
+    procedure WebModuleAfterDispatch(Sender: TObject; Request: TWebRequest;
+        Response: TWebResponse; var Handled: Boolean);
   private
     // these are NOT accessible by the WebStencilsEngine
     FTitle: string;
@@ -145,6 +147,20 @@ begin
     OpenCustomerList
   else if Request.PathInfo.StartsWith('/custedit', True) then
     EditCustomer(Request.QueryFields.ToString);
+end;
+
+procedure TwebCustListBasic.WebModuleAfterDispatch(Sender: TObject; Request:
+    TWebRequest; Response: TWebResponse; var Handled: Boolean);
+begin
+  if Response.StatusCode = 401 then
+    begin
+      // InternalSentinel used CustomHeaders.Add() which corrupts the value via
+      // TStrings name=value parsing (splits on '=' in the challenge string).
+      // Clear the malformed entry and set via the WWWAuthenticate property instead,
+      // which goes through FormatAuthenticate -> AddHeaderItem (no TStrings parsing).
+      Response.CustomHeaders.Clear;
+      Response.WWWAuthenticate := 'Basic realm="' + WebBasicAuthenticator.Realm + '", charset="UTF-8"';
+    end;
 end;
 
 procedure TwebCustListBasic.wsEngineCustListError(Sender: TObject; const AMessage: string);

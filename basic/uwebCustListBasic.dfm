@@ -1,6 +1,7 @@
 object webCustListBasic: TwebCustListBasic
   OnCreate = WebModuleCreate
   Actions = <>
+  AfterDispatch = WebModuleAfterDispatch
   Height = 339
   Width = 279
   object wsEngineCustList: TWebStencilsEngine
