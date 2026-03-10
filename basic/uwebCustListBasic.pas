@@ -21,8 +21,6 @@ type
     procedure WebBasicAuthenticatorAuthenticate(
       Sender: TCustomWebAuthenticator; Request: TWebRequest; const UserName,
       Password: string; var Roles: string; var Success: Boolean);
-    procedure WebBasicAuthenticatorAuthenticated(Sender: TCustomWebAuthenticator;
-        Request: TWebRequest; const UserName: string; var Roles: string);
     procedure WebFileDispatcherBeforeDispatch(Sender: TObject; const AFileName:
         string; Request: TWebRequest; Response: TWebResponse; var Handled: Boolean);
   private
@@ -61,7 +59,7 @@ procedure TwebCustListBasic.WebModuleCreate(Sender: TObject);
 begin
   // web app vars
   FTitle := 'Customer List for WebStencils with Basic Authentication';
-  FVersion := '0.6';
+  FVersion := '1.2';
 
   wsEngineCustList.AddVar('App', Self, False);
 
@@ -117,8 +115,6 @@ procedure TwebCustListBasic.WebBasicAuthenticatorAuthenticate(
   Sender: TCustomWebAuthenticator; Request: TWebRequest; const UserName,
   Password: string; var Roles: string; var Success: Boolean);
 begin
-  WebLogger.Add('WebBasicAuthenticatorAuthenticate.Request.PathInfo: ' + Request.PathInfo);
-
   ClearVars;
   Roles := EmptyStr;
 
@@ -140,17 +136,11 @@ begin
   end;
 end;
 
-procedure TwebCustListBasic.WebBasicAuthenticatorAuthenticated(Sender:
-    TCustomWebAuthenticator; Request: TWebRequest; const UserName: string; var
-    Roles: string);
-begin
-  WebLogger.Add('WebBasicAuthenticatorAuthenticated.Request.PathInfo: ' + Request.PathInfo);
-end;
-
 procedure TwebCustListBasic.WebFileDispatcherBeforeDispatch(Sender: TObject;
     const AFileName: string; Request: TWebRequest; Response: TWebResponse; var
     Handled: Boolean);
 begin
+  ClearVars;
   if SameText(Request.PathInfo, '/custlist') then
     OpenCustomerList
   else if Request.PathInfo.StartsWith('/custedit', True) then
@@ -160,7 +150,6 @@ end;
 procedure TwebCustListBasic.wsEngineCustListError(Sender: TObject; const AMessage: string);
 begin
   WebLogger.Add('WebEngine ERROR: ' + AMessage);
-  ShowMessage(AMessage);
 end;
 
 end.

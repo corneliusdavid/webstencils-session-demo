@@ -12,9 +12,8 @@ object webCustListBasic: TwebCustListBasic
     Top = 32
   end
   object WebBasicAuthenticator: TWebBasicAuthenticator
-    LogoutURL = '/logout'
+    LogoutURL = '/'
     OnAuthenticate = WebBasicAuthenticatorAuthenticate
-    OnAuthenticated = WebBasicAuthenticatorAuthenticated
     Left = 136
     Top = 152
   end
