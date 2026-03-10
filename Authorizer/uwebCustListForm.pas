@@ -128,8 +128,6 @@ begin
   ClearVars;
   Roles := EmptyStr;
 
-
-
   Success := dmCust.LoginCheck(Username, Password);
   if Success then begin
     FFullName := dmCust.EmployeeFirstName + ' ' + dmCust.EmployeeLastName;
