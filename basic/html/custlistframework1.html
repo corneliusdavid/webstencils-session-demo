@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>@App.Title</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <style>
+    @Import style.css
+  </style>
+</head>
+<body>
+
+<div class="container px-5">
+
+  <div class="row">
+    <div class="col-md-12">
+      @if (session.Authenticated) {
+        <h2 class="text-center text-primary">@app.Title</h2>
+      }
+      @else {
+        <h3 class="text-center text-primary">@app.Title</h3>
+      }
+      <h5 class="text-center text-primary">Version @app.Version</h5>
+    </div>
+  </div>
+
+  <div class="col-lg-12 bg-light justify-content-center shadow p-3 mb-5 bg-body rounded">
+
+  @RenderBody
+
+  </div>
+
+<div><p>&nbsp;</p></div>
+<hr />
+
+@Import session_include.html
+@Import request_include.html
+
+<div class="text-secondary"><em>Customer Manager for WebStencils</em></div>
+
+</body>
+</html>
+

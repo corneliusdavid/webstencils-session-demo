@@ -1,0 +1,57 @@
+<h4>Session Properties</h4>
+<table>
+  <tbody>
+    <tr>
+      <td align="right"><strong>Session ID:</strong></td>
+      <td><code>@session.Id</code></td>
+    </tr>
+    <tr>
+      <td align="right"><strong>Authenticated:</strong></td>
+      <td><code>@session.Authenticated</code></td>
+    </tr>
+    <tr>
+      <td align="right"><strong>User Name:</strong></td>
+      <td><code>@session.UserName</code></td>
+    </tr>
+    <tr>
+      <td align="right"><strong>User Roles:</strong></td>
+      <td><code>@session.UserRoles</code></td>
+    </tr>
+    <tr>
+      <td align="right">Higest Role:</td>
+      <td>
+        @switch (app.HighestUserRole) {
+          @case "manager" {
+            <strong>Manager</strong>
+          }
+          @case "editor" {
+            <strong>Editor</strong>
+          }
+          @case "viewer" {
+            <strong>Viewer</strong>
+          }
+          @default {
+            <em>Undefined</em>
+          }
+        }
+      </td>
+    </tr>
+    <tr>
+      <td align="right"><strong>Created Time:</strong></td>
+      <td><code>@session.CreatedTime</code></td>
+    </tr>
+    <tr>
+      <td align="right"><strong>Accessed Time:</strong></td>
+      <td><code>@session.AccessedTime</code></td>
+    </tr>
+    <tr>
+      <td align="right"><strong>Access Count:</strong></td>
+      <td><code>@session.AccessedCount</code></td>
+    </tr>
+    <tr>
+      <td align="right"><strong>Timeout:</strong></td>
+      <td><code>@session.Timeout</code></td>
+    </tr>
+  </tbody>
+</table>
+
