@@ -14,15 +14,15 @@ There are five pages in the application:
 
 1. Index
 2. Login page
-2. Login Error
-3. Customer List (lists customers in a table)
-4. Customer Edit (presents an edit page for the selected customer)
+3. Login Error
+4. Customer List (lists customers in a table)
+5. Customer Edit (presents an edit page for the selected customer)
 
 **WebStencils template HTML files:**
 
 - `custlistframework1.html` - template used in all pages
 - `session_include.html` - include file to show session information
-- `request_include.html` - include file to show request inforamtion
+- `request_include.html` - include file to show request information
 - `index.html` - starting page
 - `loginform.html` - form for requesting username and password
 - `loginfailed.html` - error page for invalid login
@@ -62,7 +62,7 @@ Once logged in, the customer list is shown.
 
 To illustrate both conditional HTML scripting with WebStencils and WebBroker's new user authentication capabilities, the project implements three different roles that affect and control access to the generated web pages. These roles are defined by key words in the `Title` field of the `Employee` table:
 
-- if the `Title` field contains the word "Manager", the user role is MGR;
+- if the `Title` field contains the word "Manager", the user role is MANAGER;
 - else if the `Title` field contains the word "IT", the user role is EDITOR;
 - else the user role is VIEWER (no editing allowed).
 
