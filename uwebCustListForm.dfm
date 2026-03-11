@@ -47,8 +47,8 @@ object webCustListWebStencil: TwebCustListWebStencil
       Name = 'waLogout'
       PathInfo = '/logout'
     end>
-  Height = 495
-  Width = 455
+  Height = 418
+  Width = 451
   object wspIndex: TWebStencilsProcessor
     Engine = wsEngineCustList
     InputFileName = 'html/index.html'

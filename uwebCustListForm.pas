@@ -118,12 +118,15 @@ begin
       if not wsEngineCustList.HasVar('CustDetails') then
         wsEngineCustList.AddVar('CustDetails', dmCust.qryCustDetails, False);
       try
-        Response.Content := wspCustEdit.Content;
-      except
-        on E:EWebNotAuthenticated do
-          Response.Content := wspLoginFailed.Content;
+        try
+          Response.Content := wspCustEdit.Content;
+        except
+          on E:EWebNotAuthenticated do
+            Response.Content := wspLoginFailed.Content;
+        end;
+      finally
+        dmCust.CloseCustDetails;
       end;
-      dmCust.CloseCustDetails;
     end;
   end;
 end;
