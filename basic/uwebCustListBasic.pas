@@ -25,6 +25,8 @@ type
         string; Request: TWebRequest; Response: TWebResponse; var Handled: Boolean);
     procedure WebModuleAfterDispatch(Sender: TObject; Request: TWebRequest;
         Response: TWebResponse; var Handled: Boolean);
+    procedure webCustListBasicwaLogoutAction(Sender: TObject; Request: TWebRequest; Response: TWebResponse;
+      var Handled: Boolean);
   private
     // these are NOT accessible by the WebStencilsEngine
     FTitle: string;
@@ -34,7 +36,7 @@ type
     FHighestUserRole: string;
     procedure ClearVars;
     procedure OpenCustomerList;
-    procedure EditCustomer(const CustParams: string);
+    procedure EditCustomer(const CustNum: Integer);
   public
     // these will be available by the WebStencilsEngine parser
     property Title: string read FTitle;
@@ -64,14 +66,6 @@ begin
   FVersion := '1.2';
 
   wsEngineCustList.AddVar('App', Self, False);
-
-  // html paths
-  wsEngineCustList.RootDirectory := TPath.Combine(ExtractFilePath(ParamStr(0)), 'html');
-  for var i := 0 to ComponentCount - 1 do begin
-    if Components[i] is TWebStencilsProcessor then
-      TWebStencilsProcessor(Components[i]).InputFileName := TPath.Combine(
-        wsEngineCustList.RootDirectory, TWebStencilsProcessor(Components[i]).InputFileName);
-  end;
 end;
 
 procedure TwebCustListBasic.ClearVars;
@@ -89,28 +83,11 @@ begin
     wsEngineCustList.AddVar('CustList', dmCust.qryCustomers, False);
 end;
 
-procedure TwebCustListBasic.EditCustomer(const CustParams: string);
-var
-  ParamsList: TStringList;
-  CustNo: string;
-  CustNum: Integer;
+procedure TwebCustListBasic.EditCustomer(const CustNum: Integer);
 begin
-  ParamsList := TStringList.Create;
-  try
-    ParamsList.CommaText := CustParams;
-  finally
-    ParamsList.Free;
-    if ParamsList.Count > 0 then
-    begin
-      CustNo := ParamsList.Values['cust_no'];
-      if TryStrToInt(CustNo, CustNum) then
-      begin
-        dmCust.OpenCustDetails(CustNum);
-        if not wsEngineCustList.HasVar('CustDetails') then
-          wsEngineCustList.AddVar('CustDetails', dmCust.qryCustDetails, False);
-      end;
-    end;
-  end;
+  dmCust.OpenCustDetails(CustNum);
+  if not wsEngineCustList.HasVar('CustDetails') then
+    wsEngineCustList.AddVar('CustDetails', dmCust.qryCustDetails, False);
 end;
 
 procedure TwebCustListBasic.WebBasicAuthenticatorAuthenticate(
@@ -138,20 +115,27 @@ begin
   end;
 end;
 
+procedure TwebCustListBasic.webCustListBasicwaLogoutAction(Sender: TObject; Request: TWebRequest;
+  Response: TWebResponse; var Handled: Boolean);
+begin
+  Response.StatusCode := 401;
+  Handled := True;
+end;
+
 procedure TwebCustListBasic.WebFileDispatcherBeforeDispatch(Sender: TObject;
     const AFileName: string; Request: TWebRequest; Response: TWebResponse; var
     Handled: Boolean);
 begin
-  ClearVars;
   if SameText(Request.PathInfo, '/custlist') then
     OpenCustomerList
   else if Request.PathInfo.StartsWith('/custedit', True) then
-    EditCustomer(Request.QueryFields.ToString);
+    EditCustomer(Request.QueryFields.Values['cust_no'].ToInteger);
 end;
 
 procedure TwebCustListBasic.WebModuleAfterDispatch(Sender: TObject; Request:
     TWebRequest; Response: TWebResponse; var Handled: Boolean);
 begin
+  // This code works around a bug in Web.HTTPApp to get the Web Browser to prompt for the user credentials
   if Response.StatusCode = 401 then
     begin
       // InternalSentinel used CustomHeaders.Add() which corrupts the value via

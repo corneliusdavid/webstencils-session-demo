@@ -3,9 +3,12 @@
   <div class="center-block">
     <h2>WebStencils Demo</h2>
     <h4>With Basic Authentication</h4>
+
     <a href="/custlist">Customer List</a>
-    <div class="d-flex justify-content-between align-items-center">
-      <button type="submit" name="logout" value="logout" class="btn btn-sm" onclick="this.form.submit()" form="logoutForm">Logout</button>
-      <form id="logoutForm" action="/logout" method="post" class="d-none"></form>
-    </div>
+    @if session.Authenticated {
+        <div class="d-flex justify-content-between align-items-center">
+          <button type="submit" name="logout" value="logout" class="btn btn-sm" onclick="this.form.submit()" form="logoutForm">Logout</button>
+          <form id="logoutForm" action="/logout" method="post" class="d-none"></form>
+        </div>
+    }
   </div>

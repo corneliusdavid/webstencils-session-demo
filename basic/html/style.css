@@ -3,19 +3,24 @@ body {
     line-height: 1.6;
     margin: 0;
     padding: 20px;
-    @switch (app.HighestUserRole) {
-      @case "manager" {
-        background-color: #ff5555;
-      }
-      @case "editor" {
-        background-color: #5555f4;
-      }
-      @case "viewer" {
-        background-color: #55f455;
-      }
-      @default {
-        background-color: #222222;
-      }
+    @if session.Authenticated {
+        @switch (app.HighestUserRole) {
+          @case "manager" {
+            background-color: #ff5555;
+          }
+          @case "editor" {
+            background-color: #5555f4;
+          }
+          @case "viewer" {
+            background-color: #55f455;
+          }
+          @default {
+            background-color: #222222;
+          }
+        }
+    }
+    @else {
+       background-color: #222222;
     }
 }
 .container {

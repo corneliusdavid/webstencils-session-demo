@@ -1,6 +1,12 @@
 object webCustListBasic: TwebCustListBasic
   OnCreate = WebModuleCreate
-  Actions = <>
+  Actions = <
+    item
+      MethodType = mtPost
+      PathInfo = '/logout'
+      Name = 'waLogout'
+      OnAction = webCustListBasicwaLogoutAction
+    end>
   AfterDispatch = WebModuleAfterDispatch
   Height = 339
   Width = 279
@@ -13,7 +19,6 @@ object webCustListBasic: TwebCustListBasic
     Top = 32
   end
   object WebBasicAuthenticator: TWebBasicAuthenticator
-    LogoutURL = '/'
     OnAuthenticate = WebBasicAuthenticatorAuthenticate
     Left = 136
     Top = 152
@@ -28,6 +33,10 @@ object webCustListBasic: TwebCustListBasic
       item
         PathInfo = '/custlist'
         Roles = 'viewer'
+      end
+      item
+        PathInfo = '/custedit'
+        Roles = 'viewer,editor'
       end>
     Left = 160
     Top = 208
