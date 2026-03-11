@@ -1,7 +1,7 @@
 /__recovery
 /__history
 /html/__history
-*.db
+*.log
 *.dproj
 *.local
 *.~*
@@ -13,4 +13,4 @@
 *.res
 *.otares
 fromClaude
-basic
+.claude/settings.local.json
