@@ -3,14 +3,16 @@
   <div class="center-block">
     <h2>WebStencils Demo</h2>
     <h4>With Session Management</h4>
+
     @if (session.Authenticated) {
-    <div class="d-flex justify-content-between align-items-center">
-      <button type="submit" name="logout" value="logout" class="btn btn-sm" onclick="this.form.submit()" form="logoutForm">Logout</button>
-      <form id="logoutForm" action="/logout" method="post" class="d-none"></form>
-    </div>
+      <p><a href="/custlist">Customer List</a></p>
+
+      <div class="d-flex justify-content-between align-items-center">
+        <button type="submit" name="logout" value="logout" class="btn btn-sm" onclick="this.form.submit()" form="logoutForm">Logout</button>
+        <form id="logoutForm" action="/logout" method="post" class="d-none"></form>
+      </div>
     }
     @else {
       <a href="/login">Login</a>
     }
-    <a href="/custlist">Customer List</a></p>
   </div>

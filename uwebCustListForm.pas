@@ -111,22 +111,19 @@ var
 begin
   if Request.QueryFields.Count > 0 then
   begin
-    CustNo := Request.QueryFields.Values['cust_no'];
-    if TryStrToInt(CustNo, CustNum) then
-    begin
-      dmCust.OpenCustDetails(CustNum);
-      if not wsEngineCustList.HasVar('CustDetails') then
-        wsEngineCustList.AddVar('CustDetails', dmCust.qryCustDetails, False);
+    CustNum := Request.QueryFields.Values['cust_no'].ToInteger;
+    dmCust.OpenCustDetails(CustNum);
+    if not wsEngineCustList.HasVar('CustDetails') then
+      wsEngineCustList.AddVar('CustDetails', dmCust.qryCustDetails, False);
+    try
       try
-        try
-          Response.Content := wspCustEdit.Content;
-        except
-          on E:EWebNotAuthenticated do
-            Response.Content := wspLoginFailed.Content;
-        end;
-      finally
-        dmCust.CloseCustDetails;
+        Response.Content := wspCustEdit.Content;
+      except
+        on E:EWebNotAuthenticated do
+          Response.Content := wspLoginFailed.Content;
       end;
+    finally
+      dmCust.CloseCustDetails;
     end;
   end;
 end;

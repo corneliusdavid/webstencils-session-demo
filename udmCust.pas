@@ -129,6 +129,7 @@ end;
 
 procedure TdmCust.OpenCustDetails(const CustID: Integer);
 begin
+  qryCustDetails.Close;
   qryCustDetails.ParamByName('CustID').AsInteger := CustID;
   qryCustDetails.Open;
 end;

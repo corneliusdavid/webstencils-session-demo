@@ -32,7 +32,7 @@ type
     FHighestUserRole: string;
     procedure ClearVars;
     procedure OpenCustomerList;
-    procedure EditCustomer(const CustParams: string);
+    procedure EditCustomer(const CustNum: Integer);
   public
     // these will be available by the WebStencilsEngine parser
     property Title: string read FTitle;
@@ -86,28 +86,11 @@ begin
     wsEngineCustList.AddVar('CustList', dmCust.qryCustomers, False);
 end;
 
-procedure TwebCustListWebStencil.EditCustomer(const CustParams: string);
-var
-  ParamsList: TStringList;
-  CustNo: string;
-  CustNum: Integer;
+procedure TwebCustListWebStencil.EditCustomer(const CustNum: Integer);
 begin
-  ParamsList := TStringList.Create;
-  try
-    ParamsList.CommaText := CustParams;
-  finally
-    ParamsList.Free;
-    if ParamsList.Count > 0 then
-    begin
-      CustNo := ParamsList.Values['cust_no'];
-      if TryStrToInt(CustNo, CustNum) then
-      begin
-        dmCust.OpenCustDetails(CustNum);
-        if not wsEngineCustList.HasVar('CustDetails') then
-          wsEngineCustList.AddVar('CustDetails', dmCust.qryCustDetails, False);
-      end;
-    end;
-  end;
+  dmCust.OpenCustDetails(CustNum);
+  if not wsEngineCustList.HasVar('CustDetails') then
+    wsEngineCustList.AddVar('CustDetails', dmCust.qryCustDetails, False);
 end;
 
 procedure TwebCustListWebStencil.WebFileDispatcherBeforeDispatch(Sender:
@@ -117,7 +100,7 @@ begin
   if SameText(Request.PathInfo, '/custlist') then
     OpenCustomerList
   else if Request.PathInfo.StartsWith('/custedit', True) then
-    EditCustomer(Request.QueryFields.ToString);
+    EditCustomer(Request.QueryFields.Values['cust_no'].ToInteger);
 end;
 
 procedure TwebCustListWebStencil.WebFormsAuthenticatorAuthenticate(
