@@ -1,4 +1,8 @@
-# WebStencils Session Demo #
+# WebStencils Session Demos #
+
+[![Delphi](https://img.shields.io/badge/RAD%20Studio-Delphi-red.svg)](https://www.embarcadero.com/products/rad-studio)
+[![Platform](https://img.shields.io/badge/Platform-Windows-blue.svg)]()
+[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
 WebStencils is a scripting technology, introduced with Delphi 12.2; with Delphi 13, Session Management has been added to the underlying technology making interactive web sites built with Delphi feasible without a lot of work or third-party components.
 
@@ -36,11 +40,11 @@ WebStencils was introduced in Delphi 12.2 and Session Management (the focus of t
 
 The [Chinook SQLite database](https://github.com/lerocha/chinook-database) is a popular database used for tutorials and demos and can be found in many places on the internet; it is included here for convenience. The Delphi code configures the database path to point to the current project folder so you should be able to simply compile and run.
 
-## Running the demo
+## Running the demos
 
-The demo Delphi project, `CustListFormsSessions`, is created as a Web Server Windows GUI program, meaning it runs as a small Windows VCL program that opens a port to listen for web requests with a button to launch your default web browser; the default port is 8080.
+All Delphi projects in this repository, `CustListFormsSessions`, `Authorizer/CustListFormsAuthroized`, and `basic/CustListBasicSession` are created as Web Server Windows GUI programs, meaning they will run as a small Windows VCL program that opens a port to listen for web requests with a button to launch your default web browser; the default ports are 8080, 8081, and 8082, respectively.
 
-A valid login must be entered before it will take you to the customer list. A valid login is any user in the `Employees` table where:
+All three programs access the same sample SQLite database in the root folder of this repository. A valid login must be entered before it will take you to the customer list. A valid login is any user in the `Employees` table where:
 
 - **Username** is the `FirstName`, case-insensitive;
 - **Password** is a concatenation of the `EmployeeId` and the `LastName`, case-*sensitive*.
@@ -80,6 +84,10 @@ The project contains a unit, `uLogging.pas`, for providing simple logging to pro
 ## Important Limitations
 
 The data module (`TdmCust`) is created as a global singleton shared across all requests. This works for a single-user demo but is **not thread-safe**: concurrent requests from different browsers can interfere with each other. A production application should create a separate data module instance per request or use proper synchronization.
+
+### Three Variations
+
+The original program in the root folder, `CustListFormsSessions`, was going to be the only one in this repository. However, as I learned more about the different ways to use the components and modified the HTML files slightly for different demonstration purposes, I added two more in the sub-folders; read the blog mentioned below to learn more.
 
 ## Blog
 
