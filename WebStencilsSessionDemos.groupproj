@@ -9,6 +9,9 @@
         <Projects Include="Authorizer\CustListFormsAuthorized.dproj">
             <Dependencies/>
         </Projects>
+        <Projects Include="basic\CustListBasicSession.dproj">
+            <Dependencies/>
+        </Projects>
     </ItemGroup>
     <ProjectExtensions>
         <Borland.Personality>Default.Personality.12</Borland.Personality>
@@ -35,14 +38,23 @@
     <Target Name="CustListFormsAuthorized:Make">
         <MSBuild Projects="Authorizer\CustListFormsAuthorized.dproj" Targets="Make"/>
     </Target>
+    <Target Name="CustListBasicSession">
+        <MSBuild Projects="basic\CustListBasicSession.dproj"/>
+    </Target>
+    <Target Name="CustListBasicSession:Clean">
+        <MSBuild Projects="basic\CustListBasicSession.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="CustListBasicSession:Make">
+        <MSBuild Projects="basic\CustListBasicSession.dproj" Targets="Make"/>
+    </Target>
     <Target Name="Build">
-        <CallTarget Targets="CustListFormsSessions;CustListFormsAuthorized"/>
+        <CallTarget Targets="CustListFormsSessions;CustListFormsAuthorized;CustListBasicSession"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="CustListFormsSessions:Clean;CustListFormsAuthorized:Clean"/>
+        <CallTarget Targets="CustListFormsSessions:Clean;CustListFormsAuthorized:Clean;CustListBasicSession:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="CustListFormsSessions:Make;CustListFormsAuthorized:Make"/>
+        <CallTarget Targets="CustListFormsSessions:Make;CustListFormsAuthorized:Make;CustListBasicSession:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>
