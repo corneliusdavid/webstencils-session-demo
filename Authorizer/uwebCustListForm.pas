@@ -23,7 +23,6 @@ type
     procedure WebFormsAuthenticatorAuthenticate(
       Sender: TCustomWebAuthenticator; Request: TWebRequest; const UserName,
       Password: string; var Roles: string; var Success: Boolean);
-    procedure wspLoginBeforeProduce(Sender: TObject);
   private
     // these are NOT accessible by the WebStencilsEngine
     FTitle: string;
@@ -149,11 +148,6 @@ end;
 procedure TwebCustListWebStencil.wsEngineCustListError(Sender: TObject; const AMessage: string);
 begin
   WebLogger.Add('WebEngine ERROR: ' + AMessage);
-end;
-
-procedure TwebCustListWebStencil.wspLoginBeforeProduce(Sender: TObject);
-begin
-  ClearVars;
 end;
 
 end.

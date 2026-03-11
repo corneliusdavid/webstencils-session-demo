@@ -1,0 +1,48 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{31CB21A5-D12E-4D9F-B102-E59A5439F9A0}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="CustListFormsSessions.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="Authorizer\CustListFormsAuthorized.dproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="CustListFormsSessions">
+        <MSBuild Projects="CustListFormsSessions.dproj"/>
+    </Target>
+    <Target Name="CustListFormsSessions:Clean">
+        <MSBuild Projects="CustListFormsSessions.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="CustListFormsSessions:Make">
+        <MSBuild Projects="CustListFormsSessions.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="CustListFormsAuthorized">
+        <MSBuild Projects="Authorizer\CustListFormsAuthorized.dproj"/>
+    </Target>
+    <Target Name="CustListFormsAuthorized:Clean">
+        <MSBuild Projects="Authorizer\CustListFormsAuthorized.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="CustListFormsAuthorized:Make">
+        <MSBuild Projects="Authorizer\CustListFormsAuthorized.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="CustListFormsSessions;CustListFormsAuthorized"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="CustListFormsSessions:Clean;CustListFormsAuthorized:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="CustListFormsSessions:Make;CustListFormsAuthorized:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>

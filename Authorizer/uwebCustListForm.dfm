@@ -18,7 +18,7 @@ object webCustListWebStencil: TwebCustListWebStencil
   object WebFormsAuthenticator: TWebFormsAuthenticator
     LoginURL = '/login'
     FailedURL = '/loginfailed'
-    HomeURL = '/'
+    HomeURL = '/custlist'
     LogoutURL = '/logout'
     OnAuthenticate = WebFormsAuthenticatorAuthenticate
     Left = 192
